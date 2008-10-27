@@ -1,0 +1,8 @@
+<module>
+	<name>MySQL</name>
+	<version>1.0</version>
+	<author>Thijs Wijnmaalen</author>
+	<dependencies>
+		<module version="1.0">Base</module>
+	</dependencies>
+</module>

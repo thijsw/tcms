@@ -1,0 +1,11 @@
+<module>
+	<name>Page</name>
+	<version>1.0</version>
+	<author>Thijs Wijnmaalen</author>
+	<dependencies>
+		<!--<module version="1.0">Library</module>-->
+		<module version="1.0">Navigation</module>
+		<module version="1.0">Base</module>
+		<module version="1.0">MySQL</module>
+	</dependencies>
+</module>
