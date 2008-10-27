@@ -9,6 +9,7 @@ class Module_Page extends Module {
 	}
 
 	public function view () {
+		var_dump($this);
 		echo 'view page';
 	}
 

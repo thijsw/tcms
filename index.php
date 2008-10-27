@@ -34,15 +34,27 @@ class TCms {
 	public function load_module ($module) {
 		global $__module_file;
 
+		// already loaded
+		if (isset($this->$module))
+			return;
+
 		if (!file_exists($file = sprintf($__module_file, $module))) {
 			throw new Exception_Core("Requested module $module could not be found");
 		} else {
 			require_once $file;
 		}
 
-		$this->get_dependencies($module);
+		// get dependencies for this module
+		$deps = $this->get_dependencies($module);
+
+		// instantiate object
 		$class = 'Module_' . ucfirst($module);
 		$this->$module = new $class;
+		
+		// add dependencies to reference in this module
+		foreach ($deps as $object) {
+			$this->$module->setModule($object);
+		}
 	}
 	
 	public function test_dependencies () {
@@ -51,9 +63,12 @@ class TCms {
 
 	public function get_dependencies ($module) {
 		$package = $this->read_package($module);
+		$modules = array();
 		foreach ($package->get_dependencies() as $module) {
 			$this->load_module($module);
+			$modules[] = $this->$module;
 		}
+		return $modules;
 	}
 
 	public function read_package ($module) {
