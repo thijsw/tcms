@@ -3,35 +3,46 @@
 require_once 'config.php';
 require_once 'package.php';
 require_once 'exception/core.php';
+require_once 'exception/http.php';
 
 class TCms {
 
 	private $_segments = array();
 	
 	public function __construct () {
-		global $__default_module;
+		global $__default_module, $__default_method;
 
 		// match either /foo/bar, index.php?foo/bar or /?foo/bar
 		preg_match('/^(\/index\.php\?)?(\/\?)?(.*)$/', $_SERVER['REQUEST_URI'], $matches);
 
 		// store segments, first one is name of module
-		$module = empty($matches[3]) ? $__default_module : $matches[3];
-		$this->_segments = explode('/', $module);
+		$this->_segments = explode('/', empty($matches[3]) ? $__default_module : $matches[3]);
 
 		// load module and its dependencies
-		$this->load_module($this->_segments[0]);
+		$this->load_module($module = $this->_segments[0]);
+		
+		// call method
+		$method = empty($this->_segments[1]) ? $__default_method : $this->_segments[1];
+		if (method_exists($this->$module, $method)) {
+			$this->$module->$method();
+		} else {
+			throw new Exception_HTTP(404);
+		}
+
 	}
 
 	public function load_module ($module) {
 		global $__module_file;
 
-		if (!file_exists(sprintf($__module_file, $module))) {
+		if (!file_exists($file = sprintf($__module_file, $module))) {
 			throw new Exception_Core("Requested module $module could not be found");
+		} else {
+			require_once $file;
 		}
-		
-		$this->get_dependencies($module);
-		
 
+		$this->get_dependencies($module);
+		$class = 'Module_' . ucfirst($module);
+		$this->$module = new $class;
 	}
 	
 	public function test_dependencies () {
@@ -60,7 +71,7 @@ class TCms {
 try {
 	new TCms ();
 } catch (Exception $e) {
-	echo "<strong>TCms Exception</strong> :: " . $e->getMessage();
+	echo "<strong>" . str_replace('_', ' ', get_class($e)) . "</strong> :: " . $e->getMessage();
 }
 
 
