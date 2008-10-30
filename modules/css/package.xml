@@ -1,0 +1,12 @@
+<module system="true">
+	<title>CSS</title>
+	<version>1.0</version>
+	<authors>
+		<author>Thijs Wijnmaalen</author>
+	</authors>
+	<dependencies></dependencies>
+	<settings>
+		<setting type="boolean" name="enable_gzip" default="true">Enable GZip Compression</setting>
+		<setting type="boolean" name="strip_whitespace" default="true">Strip Whitespace and Comments</setting>
+	</settings>
+</module>

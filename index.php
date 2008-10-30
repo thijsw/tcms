@@ -1,84 +1,30 @@
 <?php
 
 require_once 'config.php';
-require_once 'package.php';
+require_once 'repository.php';
+require_once 'request.php';
+require_once 'response.php';
 require_once 'exception/core.php';
 require_once 'exception/http.php';
 
 class TCms {
-
-	private $_segments = array();
 	
 	public function __construct () {
-		global $__default_module, $__default_method;
-
-		// match either /foo/bar, index.php?foo/bar or /?foo/bar
-		preg_match('/^(\/index\.php\?)?(\/\?)?(.*)$/', $_SERVER['REQUEST_URI'], $matches);
-
-		// store segments, first one is name of module
-		$this->_segments = explode('/', empty($matches[3]) ? $__default_module : $matches[3]);
+		$req = Request::getInstance();
+		$rep = Repository::getInstance();
+		$res = Response::getInstance();
 
 		// load module and its dependencies
-		$this->load_module($module = $this->_segments[0]);
-		
+		$module = $rep->load_module($req->get_module());
+
 		// call method
-		$method = empty($this->_segments[1]) ? $__default_method : $this->_segments[1];
-		if (method_exists($this->$module, $method)) {
-			$this->$module->$method();
+		$method = $req->get_method();
+		if (method_exists($module, $method)) {
+			echo $module->$method();
+			$res->echo_headers();
 		} else {
 			throw new Exception_HTTP(404);
 		}
-
-	}
-
-	public function load_module ($module) {
-		global $__module_file;
-
-		// already loaded
-		if (isset($this->$module))
-			return;
-
-		if (!file_exists($file = sprintf($__module_file, $module))) {
-			throw new Exception_Core("Requested module $module could not be found");
-		} else {
-			require_once $file;
-		}
-
-		// get dependencies for this module
-		$deps = $this->get_dependencies($module);
-
-		// instantiate object
-		$class = 'Module_' . ucfirst($module);
-		$this->$module = new $class;
-		
-		// add dependencies to reference in this module
-		foreach ($deps as $object) {
-			$this->$module->setModule($object);
-		}
-	}
-	
-	public function test_dependencies () {
-		
-	}
-
-	public function get_dependencies ($module) {
-		$package = $this->read_package($module);
-		$modules = array();
-		foreach ($package->get_dependencies() as $module) {
-			$this->load_module($module);
-			$modules[] = $this->$module;
-		}
-		return $modules;
-	}
-
-	public function read_package ($module) {
-		global $__package_file;
-
-		if (!file_exists($file = sprintf($__package_file, $module))) {
-			throw new Exception_Core("Package file for module $module could not be found");
-		}
-
-		return new Package(file_get_contents ($file));
 	}
 
 }
@@ -86,7 +32,7 @@ class TCms {
 try {
 	new TCms ();
 } catch (Exception $e) {
-	echo "<strong>" . str_replace('_', ' ', get_class($e)) . "</strong> :: " . $e->getMessage();
+	echo "<strong>TCMS " . str_replace('_', ' ', get_class($e)) . "</strong> :: " . $e->getMessage();
 }
 
 

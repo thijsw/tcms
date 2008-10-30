@@ -1,0 +1,31 @@
+body {
+	background: #efefef;
+	font-family: "Lucida Sans", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+}
+img {
+	border: 0;
+}
+a {
+	color: #02c;
+	text-decoration: none;
+}
+br.cb {
+	clear: both;
+}
+h1 {
+	font-size: 14px;
+}
+#header, #menu, #contents {
+	border: 1px solid #ccc;
+	background: #fff;
+	padding: 10px;
+}
+#header p {
+	float: right;
+	margin: 10px;
+}
+#wrapper {
+	width: 80%;
+	margin: 1em auto;
+}

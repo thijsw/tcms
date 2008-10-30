@@ -1,5 +1,5 @@
-<module system="false">
-	<title>Navigation</title>
+<module system="true">
+	<title>Admin</title>
 	<version>1.0</version>
 	<author>Thijs Wijnmaalen</author>
 	<dependencies></dependencies>
