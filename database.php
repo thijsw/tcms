@@ -1,11 +1,19 @@
 <?php
 
-require_once 'module.php';
-require_once 'modules/mysql/exception/mysql.php';
+require_once 'exception/mysql.php';
 
-class Module_MySQL extends Module {
+class Database {
 
-	public function __construct () {
+	private static $instance;
+
+	public static function getInstance ()
+	{
+		if (empty(self::$instance))
+			self::$instance = new Database();
+		return self::$instance;
+	}
+
+	private function __construct () {
 		if (($this->connection = mysql_connect('localhost', 'root', '')) == false)
 			throw new Exception_MySQL ("Connection could not be established : " . mysql_error());
 		

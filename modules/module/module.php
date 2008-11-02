@@ -69,7 +69,7 @@ abstract class Module {
 		return $tpl->render($this, $file);
 	}
 
-	protected function render_backend ($template = null) {
+	public function render_backend ($template = null) {
 		require_once 'helpers/template.php';
 		
 		if (!is_string($template)) {

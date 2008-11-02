@@ -48,7 +48,7 @@ class Repository {
 		require_once sprintf($__module_file, 'module');
 
 		if (!file_exists($file = sprintf($__module_file, $module))) {
-			throw new Exception_Core("Requested module $module could not be found");
+			return; // not found.
 		} else {
 			require_once $file;
 		}

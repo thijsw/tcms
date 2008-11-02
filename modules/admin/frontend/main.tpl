@@ -8,21 +8,16 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			
+
 			<div id="header">
 				<p>Ingelogd als Thijs Wijnmaalen</p>
-				<h1><a href="?">Website Beheer</a></h1>
+				<h1><a href="?{$this->get_module_name()}">Website Beheer</a></h1>
 			</div>
 
-			<!-- Optional menu area -->
-			<!--
-			<div id="menu"></div>
-			-->
-
 			<div id="main">
-				<p>Home &raquo; Library Module</p>
+				<p id="breadcrumbs">Home &raquo; Library Module</p>
 				<div id="contents">
-					{include file=modules.tpl this=$this}
+						{$this->module->render_backend('overview')}
 				</div>
 			</div>
 

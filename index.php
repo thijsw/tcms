@@ -4,6 +4,7 @@ require_once 'config.php';
 require_once 'repository.php';
 require_once 'request.php';
 require_once 'response.php';
+require_once 'database.php';
 require_once 'exception/core.php';
 require_once 'exception/http.php';
 
