@@ -6,6 +6,7 @@ body {
 }
 img {
 	border: 0;
+	vertical-align: text-bottom;
 }
 a {
 	color: #02c;
@@ -17,8 +18,11 @@ br.cb {
 h1 {
 	font-size: 14px;
 }
-#header, #inner, #main {
+#header, #main {
 	padding: 10px 20px;
+}
+#inner {
+	padding: 10px;
 }
 #main {
 	padding-top: 0;

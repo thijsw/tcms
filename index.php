@@ -21,7 +21,7 @@ class TCms {
 		// call method
 		$method = $req->get_method();
 		if (method_exists($module, $method)) {
-			echo $module->$method();
+			echo $module->$method(count($_POST) > 0 ? $_POST : null);
 			$res->echo_headers();
 		} else {
 			throw new Exception_HTTP(404);

@@ -52,12 +52,8 @@ abstract class Module {
 		return $rep->get_dependencies($this->get_module_name());
 	}
 
-	protected function render ($template = null) {
+	protected function frontend ($template) {
 		require_once 'helpers/template.php';
-
-		if (!is_string($template)) {
-			throw new Exception_Core("Template must be specified");
-		}
 
 		$file = sprintf(TCMS_PATH . '/modules/%s/frontend/%s.tpl', $this->get_module_name(), $template);
 
@@ -69,15 +65,11 @@ abstract class Module {
 		return $tpl->render($this, $file);
 	}
 
-	public function render_backend ($template = null) {
+	public function backend ($template) {
 		require_once 'helpers/template.php';
-		
-		if (!is_string($template)) {
-			throw new Exception_Core("Template must be specified");
-		}
-		
+
 		$file = sprintf(TCMS_PATH . '/modules/%s/backend/%s.tpl', $this->get_module_name(), $template);
-		
+
 		if (!file_exists($file)) {
 			$file = sprintf(TCMS_PATH . '/modules/module/backend/%s.tpl', $template);
 		}

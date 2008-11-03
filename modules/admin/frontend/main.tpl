@@ -10,14 +10,19 @@
 		<div id="wrapper">
 
 			<div id="header">
-				<p>Ingelogd als Thijs Wijnmaalen</p>
+				<p>Ingelogd als <strong>Thijs Wijnmaalen</strong>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="?admin/logout">Uitloggen&nbsp;&raquo;</a></p>
 				<h1><a href="?{$this->get_module_name()}">Website Beheer</a></h1>
 			</div>
 
 			<div id="main">
 				<p id="breadcrumbs">Home &raquo; Library Module</p>
 				<div id="contents">
-						{$this->module->render_backend('overview')}
+						{assign var=method value=$this->method}
+						{if $method}
+							{$this->module->$method($this->param)}
+						{else}
+							{$this->module->backend('overview')}
+						{/if}
 				</div>
 			</div>
 

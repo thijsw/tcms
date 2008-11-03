@@ -1,0 +1,23 @@
+form p {
+	border-bottom: 1px solid #eee;
+	padding: 10px 20px;
+	margin: 5px 0;
+}
+form label {
+	width: 150px;
+	display: block;
+	font-size: 12px;
+	line-height: 20px;
+	text-align: right;
+	float: left;
+	padding: 4px;
+	font-weight: bold;
+}
+form input, form textarea, form select {
+	margin-left: 20px;
+	padding: 4px;
+	font-size: 12px;
+}
+form textarea {
+	width: 75%;
+}
