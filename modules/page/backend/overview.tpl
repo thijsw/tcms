@@ -18,7 +18,9 @@
 				<td>{if $page.modified}{$page.modified|date_format:"%d-%m-%Y %H:%M"}{else}{$page.created|date_format:"%d-%m-%Y %H:%M"}{/if}</td>
 				<td>{if $page.enabled}Ja{else}Nee{/if}</td>
 				<td>
-					<a href="?admin/module/page/edit/{$page.id}"><img src="images/icons/page_edit.png" /></a> <img src="images/icons/page_delete.png" /></td>
+					<a href="?admin/module/page/edit/{$page.id}"><img src="images/icons/page_edit.png" /></a>
+					<a href="?admin/module/page/delete/{$page.id}"><img src="images/icons/page_delete.png" /></a>
+				</td>
 			</tr>
 			{/foreach}
 			<tr>

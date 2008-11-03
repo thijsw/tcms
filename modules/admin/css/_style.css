@@ -12,6 +12,9 @@ a {
 	color: #02c;
 	text-decoration: none;
 }
+p#breadcrumbs a {
+	color: #000;
+}
 br.cb {
 	clear: both;
 }

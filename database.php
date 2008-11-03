@@ -87,6 +87,12 @@ class Database {
 		return $this->get_last_insert_id();
 	}
 
+	public function delete (Module $module, $table, $id) {
+		$table = $module->get_module_name() . '_' . $table;
+
+		return $this->query(sprintf("DELETE FROM $table WHERE id = %d", $id));
+	}
+
 }
 
 ?>

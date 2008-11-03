@@ -15,7 +15,7 @@
 		</p>
 		<p>
 			<label for="text">Inhoud</label>
-			<textarea cols="75" rows="30" name="text">{$this->page.text}</textarea>
+			<textarea cols="75" rows="30" name="text">{$this->page.text|escape:html}</textarea>
 		</p>
 		<p>
 			<label for="enabled">Gepubliceerd</label>

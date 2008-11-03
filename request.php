@@ -35,7 +35,7 @@ class Request {
 
 	public function get ($i) {
 		if (!is_int($i)) throw new Exception_Core("Get param must be of type integer");
-		return $this->segments[$i+1];
+		return isset($this->segments[$i+1]) ? $this->segments[$i+1] : null;
 	}
 
 	public function post ($name) {

@@ -26,6 +26,15 @@ abstract class Module {
 				return $module;
 	}
 
+	/**
+	 * Get all items which can be used in the Navigation module
+	 *
+	 * @return Multidimensional array
+	 */
+	public function get_all_public_items () {
+		return array();
+	}
+
 	public function set_get_params (array $segments) {
 		$this->segments = $segments;
 	}
