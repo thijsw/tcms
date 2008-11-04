@@ -39,6 +39,11 @@ abstract class Module {
 		$this->segments = $segments;
 	}
 
+	/**
+	 * Shortcut to Request::get()
+	 *
+	 * @return null|string
+	 */
 	public function get ($i) {
 		$req = Request::getInstance();
 		return $req->get($i);
@@ -53,7 +58,7 @@ abstract class Module {
 	}
 
 	public function get_module_name () {
-		return substr(strtolower(get_class($this)), 7);
+		return strtolower($this->package->title);
 	}
 
 	public function get_dependencies () {
@@ -61,38 +66,12 @@ abstract class Module {
 		return $rep->get_dependencies($this->get_module_name());
 	}
 
-	protected function frontend ($template) {
-		require_once 'helpers/template.php';
-
-		$file = sprintf(TCMS_PATH . '/modules/%s/frontend/%s.tpl', $this->get_module_name(), $template);
-
-		if (!file_exists($file)) {
-			throw new Exception_Core("Template file $file does not exist");
-		}
-
-		$tpl = Template::getInstance();
-		return $tpl->render($this, $file);
-	}
-
-	public function backend ($template) {
-		require_once 'helpers/template.php';
-
-		$file = sprintf(TCMS_PATH . '/modules/%s/backend/%s.tpl', $this->get_module_name(), $template);
-
-		if (!file_exists($file)) {
-			$file = sprintf(TCMS_PATH . '/modules/module/backend/%s.tpl', $template);
-		}
-
-		$tpl = Template::getInstance();
-		return $tpl->render($this, $file);
-	}
-
 	public function __toString () {
 		return get_class($this);
 	}
 
-	public function get_css_link () {
-		return '?css/view/' . $this->get_module_name();
+	public function get_css_link ($type = 'frontend') {
+		return '?css/' . $type . '/' . $this->get_module_name();
 	}
 	
 	public function get_icon_path () {

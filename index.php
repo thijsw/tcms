@@ -16,7 +16,7 @@ class TCms {
 		$res = Response::getInstance();
 
 		// load module and its dependencies
-		$module = $rep->load_module($req->get_module());
+		$module = $rep->load_frontend($req->get_module());
 
 		// call method
 		$method = $req->get_method();

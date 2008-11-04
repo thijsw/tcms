@@ -5,6 +5,8 @@ require_once 'package.php';
 class Repository {
 
 	private static $instance;
+	private $frontend = array();
+	private $backend  = array();
 	
 	private function __construct() {}
 
@@ -15,7 +17,7 @@ class Repository {
 		return self::$instance;
 	}
 
-	public function get_all_modules () {
+	public function get_all_modules ($type) {
 		global $__modules_path;
 
 		if (($d = opendir($__modules_path)) == false) {
@@ -25,7 +27,7 @@ class Repository {
 		$modules = array();
 		while (($file = readdir($d)) !== false) {
 			if (filetype($__modules_path . '/' . $file) == 'dir' && strlen($file) > 2) {
-				if ($module = $this->load_module($file)) {
+				if ($module = $this->load_module($file, $type)) {
 					$modules[] = $module;
 				}
 			}
@@ -34,46 +36,58 @@ class Repository {
 		return $modules;
 	}
 
-	public function load_module ($module) {
+	public function load_frontend ($module) {
+		return $this->load_module($module, 'frontend');		
+	}
+
+	public function load_backend ($module) {
+		return $this->load_module($module, 'backend');
+	}
+
+	private function load_module ($module, $type) {
 		global $__module_file;
 
 		// module 'module' must not be instantiated
-		if ($module == 'module') return;
+		if ($module == 'frontend' || $module == 'backend' || $module == 'module') return;
 
 		// already loaded
-		if (isset($this->$module))
-			return $this->$module;
+		if (isset($this->{$type}[$module]))
+			return $this->{$type}[$module];
 
-		// include the 'abstract' module file first
-		require_once sprintf($__module_file, 'module');
+		// require abstract module class
+		require_once sprintf($__module_file, 'module', 'module');
 
-		if (!file_exists($file = sprintf($__module_file, $module))) {
+		// require abstract frontend and backend classes
+		require_once sprintf($__module_file, 'module', $type);
+
+		if (!file_exists($file = sprintf($__module_file, $module, $type))) {
 			return; // not found.
 		} else {
 			require_once $file;
 		}
 
 		// get dependencies for this module
-		$deps = $this->get_dependencies($module);
+		$deps = $this->get_dependencies($module, $type);
 
 		// instantiate object
-		$class = 'Module_' . ucfirst($module);
-		$this->$module = new $class($this->read_package($module));
+		$class = ucfirst($type) . '_' . ucfirst($module);
+		$this->{$type}[$module] = new $class($this->read_package($module));
 
 		// add dependencies to reference in this module
 		foreach ($deps as $object) {
-			$this->$module->set_module($object);
+			$this->{$type}[$module]->set_module($object);
 		}
-		
-		return $this->$module;
+
+		return $this->{$type}[$module];
 	}
 
-	public function get_dependencies ($module) {
+	public function get_dependencies ($module, $type) {
 		$package = $this->read_package($module);
 		$modules = array();
 		foreach ($package->get_dependencies() as $module) {
-			$this->load_module($module);
-			$modules[] = $this->$module;
+			if ($module = $this->load_module($module, $type)) {
+				$modules[] = $module;
+			}
 		}
 		return $modules;
 	}

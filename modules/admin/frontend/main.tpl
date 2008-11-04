@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<title>Website Beheer</title>
-		<link rel="stylesheet" href="{$this->get_css_link()}" type="text/css" media="screen" />
+		<link rel="stylesheet" href="{$this->module->get_css_link('backend')}" type="text/css" media="screen" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -21,7 +21,7 @@
 						{if $method}
 							{$this->module->$method($this->param)}
 						{else}
-							{$this->module->backend('overview')}
+							{$this->module->render('overview')}
 						{/if}
 				</div>
 			</div>

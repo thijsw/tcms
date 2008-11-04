@@ -1,6 +1,6 @@
 <?php
 
-class Module_Page extends Module {
+class Backend_Page extends Backend {
 
 	public $page;
 
@@ -28,15 +28,6 @@ class Module_Page extends Module {
 		return $array;
 	}
 
-	public function index () {
-		echo 'list pages';
-	}
-
-	public function view () {
-		var_dump($this);
-		echo 'view page';
-	}
-
 	public function create ($data) {
 		if ($data) {
 			$data['enabled'] = $data['enabled'] ? 1 : 0;
@@ -46,7 +37,7 @@ class Module_Page extends Module {
 			$id = $db->insert($this, 'pages', $data);
 			$this->page = $this->_get_page($id);
 		}
-		return $this->backend('edit');
+		return $this->render('edit');
 	}
 
 	public function edit ($data) {
@@ -63,7 +54,7 @@ class Module_Page extends Module {
 			$this->page = $this->_get_page($this->get(3));
 		}
 
-		return $this->backend('edit');
+		return $this->render('edit');
 	}
 
 	public function delete () {

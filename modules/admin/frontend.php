@@ -1,6 +1,6 @@
 <?php
 
-class Module_Admin extends Module {
+class Frontend_Admin extends Frontend {
 
 	public $module;
 	public $method;
@@ -10,13 +10,13 @@ class Module_Admin extends Module {
 	}
 
 	public function login () {
-		return $this->frontend('login');
+		return $this->render('login');
 	}
 
 	public function module () {
 		$rep = Repository::getInstance();
 
-		if (($this->module = $rep->load_module($this->get(1))) === null) {
+		if (($this->module = $rep->load_backend($this->get(1))) === null) {
 			$this->module = $this;
 		}
 
@@ -28,7 +28,7 @@ class Module_Admin extends Module {
 
 		$this->param = count($_POST) > 0 ? $_POST : null;
 
-		return $this->frontend('main');
+		return $this->render('main');
 	}
 
 }
