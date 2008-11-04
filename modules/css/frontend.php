@@ -9,7 +9,7 @@ class Frontend_Css extends Frontend {
 	public function backend () {
 		return $this->view('backend');
 	}
-	
+
 	private function view ($type) {
 		global $__modules_path;
 

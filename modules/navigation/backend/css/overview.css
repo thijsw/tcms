@@ -1,0 +1,13 @@
+h2 {
+	margin-bottom: 0;
+}
+p.desc {
+	color: #666;
+	font-size: 12px;
+	margin-top: 5px;
+}
+div.area_header {
+	border-bottom: 1px solid #ddd;
+	padding: 2px 0;
+	margin-bottom: 10px;
+}
