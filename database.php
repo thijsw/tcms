@@ -31,7 +31,7 @@ class Database {
 	}
 
 	public function get_one ($sql) {
-		return current($this->get_row($sql));
+		return ($row = $this->get_row($sql)) ? current($row) : null;
 	}
 
 	public function get_last_insert_id () {

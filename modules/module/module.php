@@ -19,7 +19,7 @@ abstract class Module {
 		if (!in_array($module, $this->modules))
 			$this->modules[] = $module;
 	}
-	
+
 	protected function get_module ($name) {
 		foreach ($this->modules as $module)
 			if ($this->get_module_name() == strtolower($name))
@@ -73,7 +73,7 @@ abstract class Module {
 	public function get_css_link ($type = 'frontend') {
 		return '?css/' . $type . '/' . $this->get_module_name();
 	}
-	
+
 	public function get_icon_path () {
 		global $__modules_path;
 		if (file_exists(sprintf($__modules_path . '/%s/icon.png', $this->get_module_name())))
