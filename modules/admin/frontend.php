@@ -20,6 +20,8 @@ class Frontend_Admin extends Frontend {
 			$this->module = $this;
 		}
 
+		$this->method = 'index';
+
 		if ($this->get(2) && $this->module) {
 			if (method_exists($this->module, $this->get(2))) {
 				$this->method = $this->get(2);

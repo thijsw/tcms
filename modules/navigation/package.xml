@@ -3,4 +3,8 @@
 	<version>1.0</version>
 	<author>Thijs Wijnmaalen</author>
 	<dependencies></dependencies>
+	<models>
+		<name>Item</name>
+		<name>Area</name>
+	</models>
 </module>

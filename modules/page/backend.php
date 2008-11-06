@@ -4,14 +4,27 @@ class Backend_Page extends Backend {
 
 	public $page;
 
-	public function _get_all_pages () {
+	private function _get_all_pages () {
 		$db = Database::getInstance();
-		return $db->get_rows("select p.*, u.name_first, u.name_last from page_pages p left join users u on u.id=p.author order by p.id");
+		$rows = $db->get_rows("select p.*, u.id as author from page_page p left join module_author u on u.id=p.author order by p.id");
+
+		if (!$rows) return array();
+
+		$pages = array();
+		$storage = Storage::getInstance();
+		foreach ($rows as $row) {
+			$page = $storage->load('Page_Page', $row);
+			$author = $storage->load('Module_Author', $row['author']);
+			$page->set_author($author);
+			$pages[] = $page;
+		}
+
+		return $pages;
 	}
 
-	public function _get_page ($id) {
-		$db = Database::getInstance();
-		return $db->get_row(sprintf("select * from page_pages where id = %d", $id));
+	public function index () {
+		$this->pages = $this->_get_all_pages();
+		return $this->render('overview');
 	}
 
 	public function get_all_public_items () {
@@ -41,7 +54,9 @@ class Backend_Page extends Backend {
 	}
 
 	public function edit ($data) {
-		if (($this->page = $this->_get_page($this->get(3))) == false) {
+		$storage = Storage::getInstance();
+
+		if (($this->page = $storage->load('Page_Page', (int) $this->get(3))) == false) {
 			throw new Exception_HTTP(404);
 		}
 
@@ -58,12 +73,13 @@ class Backend_Page extends Backend {
 	}
 
 	public function delete () {
-		if (($this->page = $this->_get_page($this->get(3))) == false) {
+		$storage = Storage::getInstance();
+
+		if (($this->page = $storage->load('Page_Page', (int) $this->get(3))) == false) {
 			throw new Exception_HTTP(404);
 		}
 
-		$db = Database::getInstance();
-		$db->delete($this, 'pages', (int) $this->get(3));
+		$storage->delete($this->page);
 
 		$res = Response::getInstance();
 		$res->redirect('/?admin/module/page');

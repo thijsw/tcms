@@ -11,15 +11,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			{foreach from=$this->_get_all_pages() item=page name=pages}
+			{foreach from=$this->pages item=page name=pages}
+			{assign var=author value=$page->get_author()}
 			<tr {if $smarty.foreach.pages.iteration % 2}class="odd"{/if}>
-				<td>{$page.title|escape}</td>
-				<td>{$page.name_first|escape} {$page.name_last|escape}</td>
-				<td>{if $page.modified}{$page.modified|date_format:"%d-%m-%Y %H:%M"}{else}{$page.created|date_format:"%d-%m-%Y %H:%M"}{/if}</td>
-				<td>{if $page.enabled}Ja{else}Nee{/if}</td>
+				<td>{$page->title|escape}</td>
+				<td>{$author->name_first|escape} {$author->name_last|escape}</td>
+				<td>{if $page->modified}{$page->modified|date_format:"%d-%m-%Y %H:%M"}{else}{$page->created|date_format:"%d-%m-%Y %H:%M"}{/if}</td>
+				<td>{if $page->enabled}Ja{else}Nee{/if}</td>
 				<td>
-					<a href="?admin/module/page/edit/{$page.id}"><img src="images/icons/page_edit.png" /></a>
-					<a href="?admin/module/page/delete/{$page.id}"><img src="images/icons/page_delete.png" /></a>
+					<a href="?admin/module/page/edit/{$page->id}"><img src="images/icons/page_edit.png" /></a>
+					<a href="?admin/module/page/delete/{$page->id}"><img src="images/icons/page_delete.png" /></a>
 				</td>
 			</tr>
 			{/foreach}

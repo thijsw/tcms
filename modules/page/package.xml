@@ -6,4 +6,7 @@
 		<!--<module version="1.0">Library</module>-->
 		<module version="1.0">Navigation</module>
 	</dependencies>
+	<models>
+		<name>Page</name>
+	</models>
 </module>
