@@ -25,7 +25,7 @@ class Storage {
 	 * @param string $class The class to be created
 	 * @param int|array $id The specific id or data needed to fill this object is gathered elsewhere
 	 * @return Model|null
-   */
+	 */
 	public function load ($class, $id_data) {
 		global $__module_file;
 

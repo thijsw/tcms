@@ -6,7 +6,10 @@ class Frontend_Admin extends Frontend {
 	public $method;
 
 	public function index () {
-		return $this->module();
+		$rep = Repository::getInstance();
+		$this->module = $rep->load_backend('admin');
+		$this->method = 'index';
+		return $this->render('main');
 	}
 
 	public function login () {
