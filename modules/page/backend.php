@@ -63,10 +63,7 @@ class Backend_Page extends Backend {
 		if ($data) {
 			$data['enabled'] = $data['enabled'] ? 1 : 0;
 			$data['modified'] = date('Y-m-d H:i:s');
-			$db = Database::getInstance();
-			$db->update($this, 'pages', $this->get(3), $data);
-			// update info
-			$this->page = $this->_get_page($this->get(3));
+			$this->page = $storage->save($this->page, $data);
 		}
 
 		return $this->render('edit');

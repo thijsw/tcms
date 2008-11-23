@@ -17,8 +17,12 @@
 			<div id="main">
 				<p id="breadcrumbs"><a href="?admin">Beheer</a>{if $this->module->get_module_name() neq 'admin'} &raquo; <a href="?admin/module/{$this->module->get_module_name()}">{$this->module->get_module_title()|escape}</a>{/if}</p>
 				<div id="contents">
+					{if $this->method}
 						{assign var=method value=$this->method}
 						{$this->module->$method($this->param)}
+					{else}
+						{$this->render('overview')}
+					{/if}
 				</div>
 			</div>
 

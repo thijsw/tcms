@@ -19,6 +19,30 @@ class Storage {
 		return self::$instance;
 	}
 
+	public function save (Model $model, array $data = null) {
+		if (is_null($data)) {
+			$data = $model->to_array();
+		}
+
+		// Build and execute MySQL query
+		$sets = array();
+		foreach ($data as $key => $value) {
+			$sets[] = sprintf("`%s`='%s'", $key, mysql_real_escape_string($value));
+		}
+		$db = Database::getInstance();
+		$db->query(sprintf("REPLACE INTO %s SET ", strtolower(get_class($model))) . implode($sets, ','));
+
+		// Return updated model
+		return $this->refresh($model);
+	}
+
+	public function refresh (Model $model) {
+		$class = get_class($model);
+		$id = $model->id;
+		unset($this->models[$class][$id]);
+		return $this->load($class, $id);
+	}
+
 	/**
 	 * Load model
 	 *
@@ -54,6 +78,8 @@ class Storage {
 		}
 
 		foreach ($data as $key => $value) {
+			if (preg_match('/^\d+$/', $value))
+				$value = (int) $value;
 			$this->models[$class][$id]->$key = $value;
 		}
 

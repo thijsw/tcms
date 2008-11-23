@@ -5,6 +5,8 @@
 {/if}
 <div id="inner">
 	<form action="?admin/module/page/{if $this->page->id}edit/{$this->page->id}{else}create{/if}" method="post">
+		<input type="hidden" name="id" value="{$this->page->id}" />
+		<input type="hidden" name="author" value="{$this->page->author}" />
 		<p>
 			<label for="title">Titel</label>
 			<input type="text" size="40" name="title" value="{$this->page->title}" />
