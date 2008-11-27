@@ -6,7 +6,7 @@ class Backend_Page extends Backend {
 
 	private function _get_all_pages () {
 		$db = Database::getInstance();
-		$rows = $db->get_rows("select p.*, u.id as author from page_page p left join module_author u on u.id=p.author order by p.id");
+		$rows = $db->get_rows("SELECT p.*, u.id author FROM page_page p LEFT JOIN module_author u on u.id = p.author ORDER BY p.id");
 
 		if (!$rows) return array();
 
@@ -24,7 +24,7 @@ class Backend_Page extends Backend {
 
 	public function index () {
 		$this->pages = $this->_get_all_pages();
-		return $this->render('overview');
+		return parent::index();
 	}
 
 	public function get_all_public_items () {

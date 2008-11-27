@@ -8,29 +8,20 @@ class Backend_Navigation extends Backend {
 		$this->current = $item;
 	}
 
-	public function get_navigation_items ($area, $parent = null) {
-		$db = Database::getInstance();
-		return $db->get_rows(
-			sprintf(
-				'select * from navigation_items where area = %d and parent %s order by id',
-				(int) $area,
-				$parent > 0 ? '=' . (int) $parent : 'is null'
-			)
-		);
-	}
-
 	public function get_navigation_areas () {
 		$db = Database::getInstance();
-		return $db->get_rows('select * from navigation_areas');
+		$storage = Storage::getInstance();
+		$rows = $db->get_rows('SELECT * FROM navigation_area');
+		return $storage->load_multiple('Navigation_Area', $rows);
 	}
 
-	public function get_uri ($item) {
+	public function get_uri (Navigation_Item $item) {
 		$uri = '/?';
 		$segments = array('module', 'method', 'param');
 
 		while ($segment = array_shift($segments)) {
-			if (strlen($item[$segment]) > 0) {
-				$uri .= $item[$segment] . '/';
+			if (strlen($item->$segment) > 0) {
+				$uri .= $item->$segment . '/';
 			}
 		}
 
@@ -40,7 +31,7 @@ class Backend_Navigation extends Backend {
 
 	public function has_children ($id) {
 		$db = Database::getInstance();
-		return $db->get_one(sprintf('select id from navigation_items where parent = %d', (int) $id));	
+		return $db->get_one(sprintf('select id from navigation_item where parent = %d', (int) $id));
 	}
 
 	public function delete_item ($id) {
@@ -52,7 +43,7 @@ class Backend_Navigation extends Backend {
 		}
 
 		$db = Database::getInstance();
-		$db->query(sprintf('delete from navigation_items where id = %d', $id));
+		$db->query(sprintf('DELETE FROM navigation_item WHERE id = %d', $id));
 
 		$res = Response::getInstance();
 		$res->redirect('/?admin/module/navigation');

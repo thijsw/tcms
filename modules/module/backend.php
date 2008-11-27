@@ -2,6 +2,10 @@
 
 abstract class Backend extends Module {
 
+	public function index () {
+		return $this->render('overview');
+	}
+
 	public function render ($template) {
 		require_once 'helpers/template.php';
 

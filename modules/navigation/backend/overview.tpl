@@ -4,8 +4,8 @@
 	<!-- Areas -->
 	{foreach from=$this->get_navigation_areas() item=area}
 	<div class="area_header">
-		<h2>{$area.title|escape}</h2>
-		<p class="desc">{$area.desc|escape}</p>
+		<h2>{$area->title|escape}</h2>
+		<p class="desc">{$area->desc|escape}</p>
 	</div>
 
 	<!-- Items -->
@@ -19,7 +19,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{foreach from=$this->get_navigation_items($area.id) item=item}
+			{foreach from=$area->get_items() item=item}
 				{$this->set_current($item)}
 				{$this->render('row')}
 			{/foreach}

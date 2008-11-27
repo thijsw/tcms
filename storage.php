@@ -43,8 +43,16 @@ class Storage {
 		return $this->load($class, $id);
 	}
 
+	public function load_multiple ($class, array $data) {
+		$items = array();
+		foreach ($data as $row) {
+			$items[] = $this->load($class, $row);
+		}
+		return $items;
+	}
+
 	/**
-	 * Load model
+	 * Load single model
 	 *
 	 * @param string $class The class to be created
 	 * @param int|array $id The specific id or data needed to fill this object is gathered elsewhere
