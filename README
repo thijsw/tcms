@@ -1,0 +1,3 @@
+## What is tcms?
+
+Tcms is an experimental php-powered content management system built with modularity, speed and ease of use in mind. I am currently working on the backend and admin-interface, the frontend functionality will follow shortly. In the current state it's rather useless and requires a lot of customization.
