@@ -19,7 +19,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{foreach from=$area->get_items() item=item}
+			{foreach from=$area->get_children() item=item}
 				{$this->set_current($item)}
 				{$this->render('row')}
 			{/foreach}

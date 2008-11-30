@@ -4,15 +4,15 @@ class Backend_Navigation extends Backend {
 
 	public $current = null;
 
-	public function set_current($item) {
+	public function set_current(Navigation_Item $item) {
 		$this->current = $item;
 	}
 
 	public function get_navigation_areas () {
 		$db = Database::getInstance();
 		$storage = Storage::getInstance();
-		$rows = $db->get_rows('SELECT * FROM navigation_area');
-		return $storage->load_multiple('Navigation_Area', $rows);
+		$rows = $db->get_rows('SELECT * FROM navigation_item WHERE parent IS NULL AND tag IS NOT NULL');
+		return $storage->load_multiple('Navigation_Item', $rows);
 	}
 
 	public function get_uri (Navigation_Item $item) {
@@ -29,21 +29,12 @@ class Backend_Navigation extends Backend {
 		return substr($uri, 0, -1);
 	}
 
-	public function has_children ($id) {
-		$db = Database::getInstance();
-		return $db->get_one(sprintf('select id from navigation_item where parent = %d', (int) $id));
-	}
-
 	public function delete_item ($id) {
-		$id = (int) $this->get(3);
+		if ($this->get(3) < 1) return;
 
-		// delete its children recursively, if any
-		while ($cid = $this->has_children($id)) {
-			$this->delete_item($cid);
-		}
-
-		$db = Database::getInstance();
-		$db->query(sprintf('DELETE FROM navigation_item WHERE id = %d', $id));
+		$storage = Storage::getInstance();
+		$item = $storage->load('Navigation_Item', (int) $this->get(3));
+		$item->delete();
 
 		$res = Response::getInstance();
 		$res->redirect('/?admin/module/navigation');
