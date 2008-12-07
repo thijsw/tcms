@@ -1,7 +1,7 @@
 <tr>
 	<td style="width: 32px;">
-		{if $this->current->can_move_up()}<img src="images/icons/arrow_up.png" />{/if}
-		{if $this->current->can_move_down()}<img src="images/icons/arrow_down.png" />{/if}</td>
+		{if $this->current->can_move_up()}<a href="?admin/module/navigation/move_up/{$this->current->id}"><img src="images/icons/arrow_up.png" /></a>{/if}
+		{if $this->current->can_move_down()}<a href="?admin/module/navigation/move_down/{$this->current->id}"><img src="images/icons/arrow_down.png" /></a>{/if}</td>
 	<td style="padding-left: {$this->current->get_depth()*20-10}px;">{$this->current->title|escape}</td>
 	<td><a href="{$this->get_uri($this->current)}">{$this->get_uri($this->current)}</a></td>
 	<td style="width: 56px;">

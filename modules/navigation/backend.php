@@ -29,7 +29,7 @@ class Backend_Navigation extends Backend {
 		return substr($uri, 0, -1);
 	}
 
-	public function delete_item ($id) {
+	public function delete_item () {
 		if ($this->get(3) < 1) return;
 
 		$storage = Storage::getInstance();
@@ -39,6 +39,29 @@ class Backend_Navigation extends Backend {
 		$res = Response::getInstance();
 		$res->redirect('/?admin/module/navigation');
 	}
+
+	public function move_up () {
+		if ($this->get(3) < 1) return;
+
+		$storage = Storage::getInstance();
+		$item = $storage->load('Navigation_Item', (int) $this->get(3));
+		$item->move_up();
+
+		$res = Response::getInstance();
+		$res->redirect('/?admin/module/navigation');
+	}
+
+	public function move_down () {
+		if ($this->get(3) < 1) return;
+
+		$storage = Storage::getInstance();
+		$item = $storage->load('Navigation_Item', (int) $this->get(3));
+		$item->move_down();
+
+		$res = Response::getInstance();
+		$res->redirect('/?admin/module/navigation');
+	}
+
 
 }
 

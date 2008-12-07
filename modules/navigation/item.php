@@ -88,12 +88,34 @@ class Navigation_Item extends Model {
 		return (bool) $this->get_children();
 	}
 
+	/**
+	 * Move node up in tree, if possible
+	 *
+	 * @return boolean
+	 */
 	public function move_up () {
-		// ...
+		if (!$this->can_move_up())
+			return false;
+		$storage = Storage::getInstance();
+
+		$node = $this->get_previous_ancestor();
+		$this->sort--; $node->sort++;
+		$storage->save($this); $storage->save($node);
 	}
 
+	/**
+	 * Move node down in tree, if possible
+	 *
+	 * @return boolean
+	 */
 	public function move_down () {
-		// ...
+		if (!$this->can_move_down())
+			return false;
+		$storage = Storage::getInstance();
+
+		$node = $this->get_next_ancestor();
+		$this->sort++; $node->sort--;
+		$storage->save($this); $storage->save($node);
 	}
 
 	/**
