@@ -1,14 +1,19 @@
 <?php
 
-class Frontend_Page extends Frontend {
+require_once 'modules/homepage/frontend.php';
+
+class Frontend_Page extends Frontend_Homepage {
 
 	public function index () {
 		echo 'list pages';
 	}
 
 	public function view () {
-		var_dump($this);
-		echo 'view page';
+		return $this->render('page');
+	}
+
+	public function get_title () {
+		return 'Pagina-titel';
 	}
 
 }

@@ -6,17 +6,10 @@ abstract class Backend extends Module {
 		return $this->render('overview');
 	}
 
-	public function render ($template) {
+	public function render ($style) {
 		require_once 'helpers/template.php';
-
-		$file = sprintf(TCMS_PATH . '/modules/%s/backend/%s.tpl', $this->get_module_name(), $template);
-
-		if (!file_exists($file)) {
-			$file = sprintf(TCMS_PATH . '/modules/module/backend/%s.tpl', $template);
-		}
-
 		$tpl = Template::getInstance();
-		return $tpl->render($this, $file);
+		return $tpl->render($this, 'backend', $style);
 	}
 
 }

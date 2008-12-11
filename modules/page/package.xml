@@ -5,6 +5,7 @@
 	<dependencies>
 		<!--<module version="1.0">Library</module>-->
 		<module version="1.0">Navigation</module>
+		<module version="1.0">Homepage</module>
 	</dependencies>
 	<models>
 		<name>Page</name>

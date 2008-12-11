@@ -2,7 +2,7 @@
 
 // Global configuration
 
-define ('TCMS_PATH', '/Users/thijswijnmaalen/Sites/tcms');
+define ('TCMS_PATH', '/Users/thijs/Sites/tcms');
 
 $__default_module = 'homepage';
 $__default_method = 'index';
