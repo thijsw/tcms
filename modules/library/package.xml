@@ -1,0 +1,10 @@
+<module system="false">
+	<title>Library</title>
+	<version>1.0</version>
+	<author>Thijs Wijnmaalen</author>
+	<dependencies>
+		<module version="1.0">Homepage</module>
+	</dependencies>
+	<models>
+	</models>
+</module>
