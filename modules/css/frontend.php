@@ -2,15 +2,21 @@
 
 class Frontend_Css extends Frontend {
 
+	private $css = '';
+
 	public function frontend () {
-		return $this->view('frontend');
+		$this->css = $this->generate_css('frontend');
 	}
 
 	public function backend () {
-		return $this->view('backend');
+		$this->css = $this->generate_css('backend');
 	}
 
-	private function view ($type) {
+	public function render ($view = 'dummy') {
+		return $this->css;
+	}
+
+	private function generate_css ($type) {
 		global $__modules_path;
 
 		$rep = Repository::getInstance();

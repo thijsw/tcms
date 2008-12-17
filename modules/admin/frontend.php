@@ -8,11 +8,10 @@ class Frontend_Admin extends Frontend {
 	public function index () {
 		$rep = Repository::getInstance();
 		$this->module = $this;
-		return $this->render('main');
 	}
 
 	public function login () {
-		return $this->render('login');
+
 	}
 
 	public function module () {
@@ -31,8 +30,6 @@ class Frontend_Admin extends Frontend {
 		}
 
 		$this->param = count($_POST) > 0 ? $_POST : null;
-
-		return $this->render('main');
 	}
 
 }

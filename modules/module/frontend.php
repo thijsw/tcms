@@ -6,7 +6,7 @@ abstract class Frontend extends Module {
 		return get_class($this);
 	}
 
-	public function render ($style) {
+	public function render ($style = 'view') {
 		require_once 'helpers/template.php';
 		$tpl = Template::getInstance();
 		return $tpl->render($this, 'frontend', $style);

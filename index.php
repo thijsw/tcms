@@ -22,9 +22,9 @@ class TCms {
 		// call method
 		$method = $req->get_method();
 		if (method_exists($module, $method)) {
-			$return = $module->$method(count($_POST) > 0 ? $_POST : null);
+			$module->$method(count($_POST) > 0 ? $_POST : null);
 			$res->echo_headers();
-			echo $return;
+			echo $module->render();
 		} else {
 			throw new Exception_HTTP(404);
 		}
