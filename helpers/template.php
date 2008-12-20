@@ -32,7 +32,7 @@ class Template {
 		} while ($class = get_parent_class($class));
 
 		if (is_null($file)) {
-			throw new Exception_Core("Template file $file does not exist");
+			return "<p>&laquo;<strong>No appropriate template found for <tt>$object</tt> with style <tt>$style</tt></strong>&raquo;</p>";
 		}
 
 		/* Assign component-specific template variables */

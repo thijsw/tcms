@@ -6,10 +6,6 @@ class Frontend_Homepage extends Frontend {
 		return 'Welkom bij de Studenten Organisatie Groningen (SOG)';
 	}
 
-	public function index () {
-		return $this->render('view');
-	}
-
 }
 
 ?>

@@ -33,6 +33,7 @@
 			</div>
 
 			<div class="box">
+				{$this->render('middle')}
 				<h2>{$this->get_title()}</h2>
 				<p>Welkom op de homepage van de Studenten Organisatie Groningen (SOG)! De SOG is dé organisatie bij uitstek die de belangen van Groningse studenten behartigt. Al jaren zetten wij ons actief en met succes in voor het belang van studenten. Via de grootste fractie in de universiteitsraad, het juridisch adviesbureau, het Interstedelijk Studenten Overleg (ISO) en veel andere organen. <a href="#">Lees verder ...</a></p>
 			</div>

@@ -16,18 +16,17 @@ class TCms {
 		$rep = Repository::getInstance();
 		$res = Response::getInstance();
 
-		// load module and its dependencies
-		$module = $rep->load_frontend($req->get_module());
-
 		// call method
-		$method = $req->get_method();
-		if (method_exists($module, $method)) {
-			$module->$method(count($_POST) > 0 ? $_POST : null);
-			$res->echo_headers();
-			echo $module->render();
+		if (!method_exists($module = $rep->load_frontend($req->get_module()), $method = $req->get_method())) {
+			$status = 404;
+			$module = $rep->load_frontend('error');
 		} else {
-			throw new Exception_HTTP(404);
+			$status = $module->$method(count($_POST) > 0 ? $_POST : null);
 		}
+
+		$res->set_status($status);
+		$res->echo_headers();
+		echo $module->render();
 	}
 
 }

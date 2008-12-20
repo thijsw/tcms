@@ -5,6 +5,7 @@ class Response {
 	private static $instance;
 	private $headers = array();
 	private $redirect = null;
+	private $status = 200;
 
 	private function __construct () {}
 
@@ -27,10 +28,19 @@ class Response {
 		return $this->set_header('Content-Type', $content_type);
 	}
 
+	public function set_status ($code) {
+		if (!is_int($code)) return;
+		$this->status = $code;
+	}
+
 	public function echo_headers () {
-		// Send 302 Found response header
+		// 302 Found response header is automatically set by PHP
 		if ($this->redirect) {
 			header("Location: " . $this->redirect);
+		} else switch ($this->status) {
+			case 403: header("HTTP/1.1 404 Forbidden"); break;
+			case 404: header("HTTP/1.1 404 Not Found"); break;
+			default:  header("HTTP/1.1 200 OK");
 		}
 
 		foreach ($this->headers as $name => $value) {

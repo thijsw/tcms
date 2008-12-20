@@ -2,7 +2,7 @@
 
 class Page_Page extends Model {
 
-	private $_author = null;
+	private $author = null;
 
 	/**
 	 * Function to set Author from the outside (performance reasons)
@@ -10,7 +10,7 @@ class Page_Page extends Model {
 	 * @return void
 	 */
 	public function set_author (Module_Author $author) {
-		$this->_author = $author;
+		$this->author = $author;
 	}
 
 	/**
@@ -19,11 +19,11 @@ class Page_Page extends Model {
 	 * @return Module_Author
 	 */
 	public function get_author () {
-		if (($this->_author instanceof Module_Author) === false) {
+		if (($this->author instanceof Model) === false) {
 			$storage = Storage::getInstance();
-			$this->_author = $storage->load('Module_Author', $this->author);
+			$this->author = $storage->load('Module_Author', $this->author);
 		}
-		return $this->_author;		
+		return $this->author;
 	}
 
 }
