@@ -10,7 +10,9 @@
 		<div id="wrapper">
 
 			<div id="header">
-				<p>Ingelogd als <strong>Thijs Wijnmaalen</strong>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="?admin/logout">Uitloggen&nbsp;&raquo;</a></p>
+				<p>
+					<strong>Thijs Wijnmaalen</strong> (<a href="?admin/logout">Uitloggen</a>)
+					&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/">Naar website&nbsp;&raquo;</a></p>
 				<h1><a href="?{$this->get_module_name()}">Website Beheer</a></h1>
 			</div>
 

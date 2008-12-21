@@ -26,7 +26,7 @@ class TCms {
 
 		$res->set_status($status);
 		$res->echo_headers();
-		echo $module->render();
+		echo $module->render($module->get_template());
 	}
 
 }

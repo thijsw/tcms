@@ -9,12 +9,37 @@ define ('STATUS_INTERNAL_SERVER_ERROR',		500);
 
 abstract class Module {
 
-	private $package;	
+	private $package;
 	private $modules = array();
 	private $segments = array();
+	private $template = 'view';
 
-	public function __construct(Package $package) {
-		$this->package = $package;
+	private function read_package () {
+		if (!is_null($this->package)) return;
+
+		list ($type, $module) = explode('_', strtolower(get_class($this)));
+
+		global $__package_file;
+
+		if (!file_exists($file = sprintf($__package_file, $module))) {
+			throw new Exception_Core("Package file for module $module could not be found");
+		}
+
+		$this->package = new Package(file_get_contents($file));
+	}
+
+	public function get_dependencies ($type) {
+		$this->read_package();
+		$rep = Repository::getInstance();
+		$modules = array();
+
+		return $modules;
+		foreach ($this->package->get_dependencies() as $module) {
+			if ($module = $rep->load_module($module, $type)) {
+				$modules[] = $module;
+			}
+		}
+		return $modules;
 	}
 
 	/**
@@ -31,6 +56,15 @@ abstract class Module {
 		foreach ($this->modules as $module)
 			if ($this->get_module_name() == strtolower($name))
 				return $module;
+	}
+
+	public function set_template ($template = 'view') {
+		$this->template = $template;
+		return $this;
+	}
+
+	public function get_template () {
+		return $this->template;
 	}
 
 	/**
@@ -66,11 +100,6 @@ abstract class Module {
 
 	public function get_module_name () {
 		return strtolower($this->package->title);
-	}
-
-	public function get_dependencies () {
-		$rep = Repository::getInstance();
-		return $rep->get_dependencies($this->get_module_name());
 	}
 
 	public function __toString () {

@@ -1,17 +1,22 @@
 <?php
 
+require_once 'helpers/authentication.php';
+
 class Frontend_Admin extends Frontend {
 
 	public $module;
 	public $method;
 
+	public function __construct () {
+		$auth = Authentication::getInstance();
+		if ($auth->is_authenticated())
+			return;
+		return $this->set_template('login')->login();
+	}
+
 	public function index () {
 		$rep = Repository::getInstance();
 		$this->module = $this;
-	}
-
-	public function login () {
-
 	}
 
 	public function module () {

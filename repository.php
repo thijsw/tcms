@@ -66,31 +66,22 @@ class Repository {
 			require_once $file;
 		}
 
-		// get dependencies for this module
-		$deps = $this->get_dependencies($module, $type);
-
 		// instantiate object
 		$class = ucfirst($type) . '_' . ucfirst($module);
-		$this->{$type}[$module] = new $class($this->read_package($module));
+		$obj = $this->{$type}[$module] = new $class();
+
+		// get dependencies for this module
+		$deps = $obj->get_dependencies($type);
 
 		// add dependencies to reference in this module
 		foreach ($deps as $object) {
-			$this->{$type}[$module]->set_module($object);
+			//$this->{$type}[$module]->set_module($object);
+			$obj->set_module($object);
 		}
 
-		return $this->{$type}[$module];
+		return $obj;
 	}
 
-	public function get_dependencies ($module, $type) {
-		$package = $this->read_package($module);
-		$modules = array();
-		foreach ($package->get_dependencies() as $module) {
-			if ($module = $this->load_module($module, $type)) {
-				$modules[] = $module;
-			}
-		}
-		return $modules;
-	}
 
 	/**
 	 * Get package for module
@@ -99,13 +90,6 @@ class Repository {
 	 * @return Package
 	 */
 	public function read_package ($module) {
-		global $__package_file;
-
-		if (!file_exists($file = sprintf($__package_file, $module))) {
-			throw new Exception_Core("Package file for module $module could not be found");
-		}
-
-		return new Package(file_get_contents($file));
 	}
 
 }
