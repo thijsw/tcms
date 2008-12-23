@@ -33,6 +33,10 @@ class Request {
 		return empty($this->segments[1]) ? $this->segments[1] = $__default_method : $this->segments[1];
 	}
 
+	public function get_cookie ($name) {
+		return isset($_COOKIE[$name]) ? $_COOKIE[$name] : null;
+	}
+
 	public function get ($i) {
 		if (!is_int($i)) throw new Exception_Core("Get param must be of type integer");
 		return isset($this->segments[$i+1]) ? $this->segments[$i+1] : null;

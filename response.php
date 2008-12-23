@@ -6,6 +6,7 @@ class Response {
 	private $headers = array();
 	private $redirect = null;
 	private $status = 200;
+	private $cookies = array();
 
 	private function __construct () {}
 
@@ -33,6 +34,13 @@ class Response {
 		$this->status = $code;
 	}
 
+	public function set_cookie ($name, $value, $expire = null) {
+		if (is_null($expire)) {
+			$expire = time()+3600;
+		}
+		$this->cookies[$name] = array('value' => $value, 'expire' => $expire);
+	}
+
 	public function echo_headers () {
 		// 302 Found response header is automatically set by PHP
 		if ($this->redirect) {
@@ -45,6 +53,10 @@ class Response {
 
 		foreach ($this->headers as $name => $value) {
 			header($name . ": " . $value);
+		}
+
+		foreach ($this->cookies as $name => $meta) {
+			setcookie($name, $meta['value'], $meta['expire']);
 		}
 	}
 

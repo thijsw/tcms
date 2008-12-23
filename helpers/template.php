@@ -38,6 +38,9 @@ class Template {
 		/* Assign component-specific template variables */
 		$name = strtolower(substr(get_class($object), 7));
 		$this->_smarty->template_dir = TCMS_PATH . '/modules/' . $name . '/frontend/';
+
+		$auth = Authentication::getInstance();
+		$this->_smarty->assign('user', $auth->get_user());
 		$this->_smarty->assign('rep', Repository::getInstance());
 		$this->_smarty->assign('this', $object);
 

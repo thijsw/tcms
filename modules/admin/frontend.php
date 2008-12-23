@@ -11,7 +11,25 @@ class Frontend_Admin extends Frontend {
 		$auth = Authentication::getInstance();
 		if ($auth->is_authenticated())
 			return;
-		return $this->set_template('login')->login();
+		return $this->set_template('login');
+	}
+
+	public function login () {
+		$auth = Authentication::getInstance();
+		$res = Response::getInstance();
+		if ($auth->is_authenticated()) {
+			$res->redirect('?admin');
+		}
+		if (isset($_POST) && $auth->login($_POST['username'], $_POST['password'])) {
+			$res->redirect('?admin');
+		}
+	}
+
+	public function logout () {
+		$auth = Authentication::getInstance();
+		$auth->logout();
+		$res = Response::getInstance();
+		$res->redirect('?admin/login');
 	}
 
 	public function index () {

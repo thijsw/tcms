@@ -11,7 +11,7 @@
 
 			<div id="header">
 				<p>
-					<strong>Thijs Wijnmaalen</strong> (<a href="?admin/logout">Uitloggen</a>)
+					<strong>{$user->name_first|escape} {$user->name_last|escape}</strong> (<a href="?admin/logout">Uitloggen</a>)
 					&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/">Naar website&nbsp;&raquo;</a></p>
 				<h1><a href="?{$this->get_module_name()}">Website Beheer</a></h1>
 			</div>
