@@ -70,26 +70,12 @@ class Repository {
 		$class = ucfirst($type) . '_' . ucfirst($module);
 		$obj = $this->{$type}[$module] = new $class();
 
-		// get dependencies for this module
-		$deps = $obj->get_dependencies($type);
-
 		// add dependencies to reference in this module
-		foreach ($deps as $object) {
-			//$this->{$type}[$module]->set_module($object);
+		foreach ($obj->get_dependencies($type) as $object) {
 			$obj->set_module($object);
 		}
 
 		return $obj;
-	}
-
-
-	/**
-	 * Get package for module
-	 *
-	 * @param string $module
-	 * @return Package
-	 */
-	public function read_package ($module) {
 	}
 
 }

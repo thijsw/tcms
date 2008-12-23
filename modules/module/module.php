@@ -33,9 +33,9 @@ abstract class Module {
 		$rep = Repository::getInstance();
 		$modules = array();
 
-		return $modules;
+		$method = 'load_' . $type;
 		foreach ($this->package->get_dependencies() as $module) {
-			if ($module = $rep->load_module($module, $type)) {
+			if ($module = $rep->$method($module)) {
 				$modules[] = $module;
 			}
 		}

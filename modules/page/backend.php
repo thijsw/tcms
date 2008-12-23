@@ -48,8 +48,10 @@ class Backend_Page extends Backend {
 			$data['author'] = 1; // FIXME
 			$data['created'] = date('Y-m-d H:i:s');
 			$db = Database::getInstance();
-			$id = $db->insert($this, 'pages', $data);
-			$this->page = $this->_get_page($id);
+			$id = $db->insert($this, 'page', $data);
+
+			$storage = Storage::getInstance();
+			$this->page = $storage->load('Page_Page', $id);
 		}
 		return $this->render('edit');
 	}
@@ -58,7 +60,7 @@ class Backend_Page extends Backend {
 		$storage = Storage::getInstance();
 
 		if (($this->page = $storage->load('Page_Page', (int) $this->get(3))) == false) {
-			throw new Exception_HTTP(404);
+			return STATUS_NOT_FOUND;
 		}
 
 		if ($data) {
@@ -74,7 +76,7 @@ class Backend_Page extends Backend {
 		$storage = Storage::getInstance();
 
 		if (($this->page = $storage->load('Page_Page', (int) $this->get(3))) == false) {
-			throw new Exception_HTTP(404);
+			return STATUS_NOT_FOUND;
 		}
 
 		$storage->delete($this->page);

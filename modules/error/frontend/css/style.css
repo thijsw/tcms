@@ -1,0 +1,21 @@
+body {
+	font-family: helvetica, arial, sans-serif;
+	background: #fff;
+	color: #333;
+	font-size: 12px;
+}
+#wrapper {
+	width: 90%;
+	margin: 4em auto;
+}
+h1 {
+	font-size: 16px;
+	padding: 15px;
+	margin: 0;
+}
+#wrapper p {
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	padding: 20px 15px;
+	margin: 0;
+}

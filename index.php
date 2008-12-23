@@ -17,11 +17,14 @@ class TCms {
 		$res = Response::getInstance();
 
 		// call method
-		if (!method_exists($module = $rep->load_frontend($req->get_module()), $method = $req->get_method())) {
-			$status = 404;
-			$module = $rep->load_frontend('error');
-		} else {
+		if (method_exists($module = $rep->load_frontend($req->get_module()), $method = $req->get_method())) {
 			$status = $module->$method(count($_POST) > 0 ? $_POST : null);
+		} else $status = 404;
+
+		// not 200 OK status, override module with error frontend
+		if ($status !== 200 && $status !== null) {
+			$module = $rep->load_frontend('error');
+			$module->set_status($status);
 		}
 
 		$res->set_status($status);
