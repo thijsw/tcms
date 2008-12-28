@@ -99,15 +99,21 @@ abstract class Module {
 	}
 
 	public function get_module_name () {
-		return strtolower($this->package->title);
+		list ($type, $module) = explode('_', get_class($this));
+		return strtolower($module);
 	}
 
 	public function __toString () {
 		return get_class($this);
 	}
 
+	public function url () {
+		global $__mod_rewrite;
+		return 'http://' . $_SERVER['HTTP_HOST'] . ($__mod_rewrite ? '/' : '/?') . implode(func_get_args(), '/');
+	}
+
 	public function get_css_link ($type = 'frontend') {
-		return '?css/' . $type . '/' . $this->get_module_name();
+		return $this->url('css', $type, $this->get_module_name());
 	}
 
 	public function get_icon_path () {

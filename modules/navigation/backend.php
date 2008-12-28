@@ -29,6 +29,11 @@ class Backend_Navigation extends Backend {
 		return substr($uri, 0, -1);
 	}
 
+	public function add_item () {
+		if ($this->get(3) < 1) return;
+		$this->set_template('add_item');
+	}
+
 	public function delete_item () {
 		if ($this->get(3) < 1) return;
 
@@ -37,7 +42,7 @@ class Backend_Navigation extends Backend {
 		$item->delete();
 
 		$res = Response::getInstance();
-		$res->redirect('/?admin/module/navigation');
+		$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 	}
 
 	public function move_up () {
@@ -48,7 +53,7 @@ class Backend_Navigation extends Backend {
 		$item->move_up();
 
 		$res = Response::getInstance();
-		$res->redirect('/?admin/module/navigation');
+		$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 	}
 
 	public function move_down () {
@@ -59,7 +64,7 @@ class Backend_Navigation extends Backend {
 		$item->move_down();
 
 		$res = Response::getInstance();
-		$res->redirect('/?admin/module/navigation');
+		$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 	}
 
 

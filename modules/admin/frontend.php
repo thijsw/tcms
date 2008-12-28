@@ -18,10 +18,10 @@ class Frontend_Admin extends Frontend {
 		$auth = Authentication::getInstance();
 		$res = Response::getInstance();
 		if ($auth->is_authenticated()) {
-			$res->redirect('?admin');
+			$res->redirect($this->url('admin'));
 		}
 		if (isset($_POST) && $auth->login($_POST['username'], $_POST['password'])) {
-			$res->redirect('?admin');
+			$res->redirect($this->url('admin'));
 		}
 	}
 
@@ -29,7 +29,7 @@ class Frontend_Admin extends Frontend {
 		$auth = Authentication::getInstance();
 		$auth->logout();
 		$res = Response::getInstance();
-		$res->redirect('?admin/login');
+		$res->redirect($this->url('admin', 'login'));
 	}
 
 	public function index () {
@@ -44,15 +44,15 @@ class Frontend_Admin extends Frontend {
 			$this->module = $this;
 		}
 
-		$this->method = 'index';
+		$this->method = $method = 'index';
 
-		if ($this->get(2) && $this->module) {
+		if ($this->get(2)) {
 			if (method_exists($this->module, $this->get(2))) {
-				$this->method = $this->get(2);
+				$this->method = $method = $this->get(2);
 			}
 		}
 
-		$this->param = count($_POST) > 0 ? $_POST : null;
+		return $this->module->$method(count($_POST) > 0 ? $_POST : null);
 	}
 
 }

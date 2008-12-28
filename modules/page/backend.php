@@ -2,19 +2,21 @@
 
 class Backend_Page extends Backend {
 
-	public $page;
-	public $pages = array();
+	public $item;
+	public $items = array();
+	public $model_name = 'page';
+	public $model_class = 'Page_Page';
 
-	private function get_all_pages () {
+	private function get_all_items () {
 		$db = Database::getInstance();
-		$rows = $db->get_rows("SELECT p.*, u.id author FROM page_page p LEFT JOIN module_author u on u.id = p.author ORDER BY p.id");
+		$rows = $db->get_rows(sprintf("SELECT p.*, u.id author FROM %s p LEFT JOIN module_author u on u.id = p.author ORDER BY p.id", strtolower($this->model_class)));
 
 		if (!$rows) return array();
 
 		$pages = array();
 		$storage = Storage::getInstance();
 		foreach ($rows as $row) {
-			$page = $storage->load('Page_Page', $row);
+			$page = $storage->load($this->model_class, $row);
 			$author = $storage->load('Module_Author', $row['author']);
 			$page->set_author($author);
 			$pages[] = $page;
@@ -23,14 +25,18 @@ class Backend_Page extends Backend {
 		return $pages;
 	}
 
+	public function get_title () {
+		return 'Lijst met pagina\'s';
+	}
+
 	public function index () {
-		$this->pages = $this->get_all_pages();
+		$this->items = $this->get_all_items();
 		return parent::index();
 	}
 
 	public function get_all_public_items () {
 		$array = array();
-		foreach ($this->_get_all_pages() as $page) {
+		foreach ($this->get_all_items() as $page) {
 			if ($page['enabled'] < 1) continue;
 			$array[] = array(
 				'module' => $this->get_module_name(),
@@ -48,41 +54,41 @@ class Backend_Page extends Backend {
 			$data['author'] = 1; // FIXME
 			$data['created'] = date('Y-m-d H:i:s');
 			$db = Database::getInstance();
-			$id = $db->insert($this, 'page', $data);
+			$id = $db->insert($this, $this->model_name, $data);
 
 			$storage = Storage::getInstance();
-			$this->page = $storage->load('Page_Page', $id);
+			$this->item = $storage->load($this->model_class, $id);
 		}
-		return $this->render('edit');
+		$this->set_template('edit');
 	}
 
 	public function edit ($data) {
 		$storage = Storage::getInstance();
 
-		if (($this->page = $storage->load('Page_Page', (int) $this->get(3))) == false) {
+		if (($this->item = $storage->load($this->model_class, (int) $this->get(3))) == false) {
 			return STATUS_NOT_FOUND;
 		}
 
 		if ($data) {
 			$data['enabled'] = $data['enabled'] ? 1 : 0;
 			$data['modified'] = date('Y-m-d H:i:s');
-			$this->page = $storage->save($this->page, $data);
+			$this->item = $storage->save($this->item, $data);
 		}
 
-		return $this->render('edit');
+		$this->set_template('edit');
 	}
 
 	public function delete () {
 		$storage = Storage::getInstance();
 
-		if (($this->page = $storage->load('Page_Page', (int) $this->get(3))) == false) {
+		if (($this->item = $storage->load($this->model_class, (int) $this->get(3))) == false) {
 			return STATUS_NOT_FOUND;
 		}
 
-		$storage->delete($this->page);
+		$storage->delete($this->item);
 
 		$res = Response::getInstance();
-		$res->redirect('/?admin/module/page');
+		$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 	}
 
 }

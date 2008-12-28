@@ -1,13 +1,14 @@
 <?php
 
 require_once 'config.php';
-require_once 'repository.php';
-require_once 'request.php';
-require_once 'response.php';
-require_once 'database.php';
-require_once 'storage.php';
 require_once 'exception/core.php';
 require_once 'exception/http.php';
+require_once 'helpers/repository.php';
+require_once 'helpers/request.php';
+require_once 'helpers/response.php';
+require_once 'helpers/database.php';
+require_once 'helpers/storage.php';
+require_once 'helpers/authentication.php';
 
 class TCms {
 	

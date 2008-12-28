@@ -23,6 +23,9 @@
 				{$this->set_current($item)}
 				{$this->render('row')}
 			{/foreach}
+			<tr>
+				<td colspan="4"><img src="images/icons/add.png"> <a href="{$this->url('admin', 'module', $this->get_module_name(), 'add_item', $area->id)}"><strong>Nieuw item aanmaken &raquo;</strong></a></td>
+			</tr>
 		</tbody>
 	</table>
 	

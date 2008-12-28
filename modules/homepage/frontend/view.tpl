@@ -69,7 +69,7 @@
 		</div>
 
 		<div id="footer">
-			<p>&copy; 2008 <a href="/">Studenten Organisatie Groningen</a> &middot; KvK 40023028 Groningen<br />Technische realisatie en vormgeving: <a href="http://thijs.wijnmaalen.name/">Thijs Wijnmaalen</a></p>
+			<p>&copy; 2008 <a href="{$this->url()}">Studenten Organisatie Groningen</a> &middot; KvK 40023028 Groningen<br />Technische realisatie en vormgeving: <a href="http://thijs.wijnmaalen.name/">Thijs Wijnmaalen</a></p>
 		</div>
 
 	</div>

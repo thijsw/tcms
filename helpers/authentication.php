@@ -76,8 +76,8 @@ class Authentication {
 	public function generate_hash ($username, $password)
 	{
 		$str = "salt44549685406849308654286946645";
-		$str .= $_SERVER['HTTP_REMOTE_ADDR'];
-		$str .= $_SERVER['HTTP_USER_AGENT'];
+		$str .= isset($_SERVER['HTTP_REMOTE_ADDR']) ? $_SERVER['HTTP_REMOTE_ADDR'] : '';
+		$str .= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$str .= $username . $password;
 		return sha1($str);
 	}

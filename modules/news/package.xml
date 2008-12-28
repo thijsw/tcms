@@ -1,10 +1,14 @@
 <module system="false">
-	<title>Mediabibliotheek</title>
+	<title>Nieuws</title>
 	<version>1.0</version>
 	<author>Thijs Wijnmaalen</author>
 	<dependencies>
+		<!--<module version="1.0">Library</module>-->
+		<module version="1.0">Navigation</module>
 		<module version="1.0">Homepage</module>
+		<module version="1.0">Page</module>
 	</dependencies>
 	<models>
+		<name>Item</name>
 	</models>
 </module>

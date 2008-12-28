@@ -42,6 +42,7 @@ class Response {
 	}
 
 	public function echo_headers () {
+
 		// 302 Found response header is automatically set by PHP
 		if ($this->redirect) {
 			header("Location: " . $this->redirect);

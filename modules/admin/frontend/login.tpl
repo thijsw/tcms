@@ -42,7 +42,7 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<form action="?admin/login" method="post">
+			<form action="{$this->url('admin', 'login')}" method="post">
 				<h1>Website Beheer</h1>
 				<p>Hier kunt u inloggen met uw persoonlijke gebruikersnaam en wachtwoord om deze site te beheren</p>
 				<p>

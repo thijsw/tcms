@@ -32,7 +32,7 @@ class Template {
 		} while ($class = get_parent_class($class));
 
 		if (is_null($file)) {
-			return "<p>&laquo;<strong>No appropriate template found for <tt>$object</tt> with style <tt>$style</tt></strong>&raquo;</p>";
+			return "<!-- No appropriate template found for '$object' with style '$style' -->";
 		}
 
 		/* Assign component-specific template variables */
