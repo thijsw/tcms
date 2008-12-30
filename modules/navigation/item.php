@@ -2,6 +2,8 @@
 
 class Navigation_Item extends Model {
 
+	private $children = null; // null, not array
+
 	public function can_move_up () {
 		return (bool) $this->get_previous_ancestor();
 	}
@@ -12,6 +14,19 @@ class Navigation_Item extends Model {
 
 	public function is_root () {
 		return is_null($this->parent);
+	}
+
+	public function is_active () {
+		$req = Request::getInstance();
+		return (
+			$this->module == $req->get_module() &&
+			(is_null($this->method) ? 'index' : $this->method) == $req->get_method() &&
+			$this->param == $req->get(1)
+		);
+	}
+
+	public function get_link () {
+		return $this->url($this->module, $this->method, $this->param);
 	}
 
 	public function get_root () {
@@ -37,8 +52,9 @@ class Navigation_Item extends Model {
 	public function get_next_ancestor () {
 		$parent = $this->get_parent();
 		if (!$parent) return;
+		$children = $parent->get_children();
 		if (count($children) === 1) return;
-		for ($i = 0, $children = $parent->get_children(); $i < count($children); $i++) {
+		for ($i = 0; $i < count($children); $i++) {
 			if ($children[$i] === $this && isset($children[$i+1])) // important: test identical not equal
 				return $children[$i+1];
 		}
@@ -47,8 +63,9 @@ class Navigation_Item extends Model {
 	public function get_previous_ancestor () {
 		$parent = $this->get_parent();
 		if (!$parent) return;
+		$children = $parent->get_children();
 		if (count($children) === 1) return;
-		for ($i = 0, $children = $parent->get_children(); $i < count($children); $i++) {
+		for ($i = 0; $i < count($children); $i++) {
 			if ($children[$i] === $this && isset($children[$i-1])) // important: test identical not equal
 				return $children[$i-1];
 		}
@@ -64,6 +81,7 @@ class Navigation_Item extends Model {
 			foreach ($this->get_children() as $child) {
 				$child->delete();
 			}
+			$this->children = array();
 		}
 
 		$storage = Storage::getInstance();
@@ -73,15 +91,19 @@ class Navigation_Item extends Model {
 	public function get_children () {
 		$db = Database::getInstance();
 
+		if (!is_null($this->children))
+			return $this->children;
+
 		$rows = $db->get_rows(sprintf(
-			'SELECT * FROM navigation_item WHERE `parent` = %d ORDER BY `sort`',
+			'SELECT * FROM %s WHERE `parent` = %d ORDER BY `sort`',
+			strtolower(get_class($this)),
 			$this->id
 		));
 
-		if (!is_array($rows)) return array();
+		if (!is_array($rows)) return $this->children = array();
 
 		$storage = Storage::getInstance();
-		return $storage->load_multiple('Navigation_Item', $rows);
+		return $this->children = $storage->load_multiple(get_class($this), $rows);
 	}
 
 	public function has_children () {
@@ -125,10 +147,6 @@ class Navigation_Item extends Model {
 	 * @return boolean
 	 */
 	public function move_to_tree (Navigation_Item $parent) {
-		// ...
-	}
-
-	public function add_child (Navigation_Item $item) {
 		// ...
 	}
 

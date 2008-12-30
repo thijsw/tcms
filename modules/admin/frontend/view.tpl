@@ -5,6 +5,8 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<title>Website Beheer</title>
 		<link rel="stylesheet" href="{$this->module->get_css_link('backend')}" type="text/css" media="screen" />
+		<script type="text/javascript" src="javascripts/prototype.js"></script>
+		<script type="text/javascript" src="javascripts/navigation.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">

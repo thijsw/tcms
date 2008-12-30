@@ -5,6 +5,7 @@ require_once 'exception/mysql.php';
 class Database {
 
 	private static $instance;
+	private $n = 0;
 
 	public static function getInstance ()
 	{
@@ -27,6 +28,7 @@ class Database {
 		if (($ret = mysql_query($sql, $this->connection)) == false) {
 			throw new Exception_MySQL(mysql_error());
 		}
+		$this->n++;
 		return $ret;
 	}
 
@@ -61,8 +63,12 @@ class Database {
 		$sql = "UPDATE $table SET ";
 
 		foreach ($data as $key => $value) {
-			$sql .= "`$key` = '" . mysql_real_escape_string($value) . "', ";
+			if (is_null($value))
+				$sql .= "`$key` = NULL, ";
+			else
+				$sql .= "`$key` = '" . mysql_real_escape_string($value) . "', ";
 		}
+
 		$sql = substr($sql, 0, -2);
 		$sql .= " WHERE id = $id LIMIT 1";
 
@@ -75,8 +81,13 @@ class Database {
 		// table name consists of prefix plus given name
 		$table = $module->get_module_name() . '_' . $table;
 
+		$values = '';
+
 		foreach (array_values($data) as $value) {
-			$values .= "'" . mysql_real_escape_string($value) . "',";
+			if (is_null($value))
+				$values .= "NULL,";
+			else
+				$values .= "'" . mysql_real_escape_string($value) . "',";
 		}
 
 		$values = substr($values, 0, -1);

@@ -4,7 +4,8 @@ class Template {
 
 	private static $instance;
 	private $_smarty;
-	
+	private $render = true;
+
 	private function __construct() {}
 
 	public static function getInstance()
@@ -14,8 +15,13 @@ class Template {
 		return self::$instance;
 	}
 
+	public function set_render ($yesorno = true) {
+		$this->render = $yesorno;
+	}
+
 	public function render ($object, $type, $style)
 	{
+		if ($this->render === false) return;
 		require_once TCMS_PATH . '/libraries/smarty/Smarty.class.php';
 		$this->_smarty = new Smarty();
 		$this->_smarty->compile_dir = TCMS_PATH . '/tmp';

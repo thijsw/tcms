@@ -103,7 +103,7 @@ class Storage {
 	public function delete (Model $model) {
 		$db = Database::getInstance();
 		$db->query(sprintf('DELETE FROM %s WHERE id = %d LIMIT 1', strtolower(get_class($model)), $model->id));
-		unset($this->models[$class][$model->id]);
+		unset($this->models[get_class($model)][$model->id]);
 	}
 
 }

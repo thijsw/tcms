@@ -22,7 +22,13 @@
 			{foreach from=$area->get_children() item=item}
 				{$this->set_current($item)}
 				{$this->render('row')}
-			{/foreach}
+				{foreachelse}
+				<tr>
+					<td colspan="4" style="text-align: center; padding: 2em;">
+						<em>Er zijn geen items gevonden in dit menu</em>
+					</td>
+				</tr>
+				{/foreach}
 			<tr>
 				<td colspan="4"><img src="images/icons/add.png"> <a href="{$this->url('admin', 'module', $this->get_module_name(), 'add_item', $area->id)}"><strong>Nieuw item aanmaken &raquo;</strong></a></td>
 			</tr>

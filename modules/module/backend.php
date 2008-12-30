@@ -16,6 +16,10 @@ abstract class Backend extends Module {
 		return $this->url('admin', 'module', $this->get_module_name(), ($this->item ? 'edit' : 'create'), ($this->item ? $this->item->id : null));
 	}
 
+	public function get_public_items () {
+		return array();
+	}
+
 }
 
 ?>

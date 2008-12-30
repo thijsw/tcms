@@ -12,7 +12,7 @@ abstract class Module {
 	private $package;
 	private $modules = array();
 	private $segments = array();
-	private $template = 'view';
+	protected $template = 'view';
 
 	private function read_package () {
 		if (!is_null($this->package)) return;
@@ -109,7 +109,11 @@ abstract class Module {
 
 	public function url () {
 		global $__mod_rewrite;
-		return 'http://' . $_SERVER['HTTP_HOST'] . ($__mod_rewrite ? '/' : '/?') . implode(func_get_args(), '/');
+		$arguments = array();
+		foreach (func_get_args() as $argument) {
+			if (!is_null($argument)) $arguments[] = $argument;
+		}
+		return 'http://' . $_SERVER['HTTP_HOST'] . ($__mod_rewrite ? '/' : '/?') . implode($arguments, '/');
 	}
 
 	public function get_css_link ($type = 'frontend') {

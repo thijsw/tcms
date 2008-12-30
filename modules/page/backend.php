@@ -34,15 +34,15 @@ class Backend_Page extends Backend {
 		return parent::index();
 	}
 
-	public function get_all_public_items () {
+	public function get_public_items () {
 		$array = array();
 		foreach ($this->get_all_items() as $page) {
-			if ($page['enabled'] < 1) continue;
 			$array[] = array(
 				'module' => $this->get_module_name(),
 				'method' => 'view',
-				'param' => $page['id'],
-				'title' => $page['title']
+				'param' => $page->id,
+				'title' => $page->title,
+				'enabled' => (bool) $page->enabled
 			);
 		}
 		return $array;

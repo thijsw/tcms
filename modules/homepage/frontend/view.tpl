@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="{$this->get_css_link()}" type="text/css" media="screen" title="Main stylesheet" charset="utf-8" />
 </head>
 <body>
-
+{assign var=navigation value=$rep->load_frontend('navigation')}
 	<div id="wrapper">
 
 		<div id="right">
@@ -45,7 +45,6 @@
 				<p><img src="images/foto.jpg" alt="Foto Emiel Blok" class="right" />De Studenten Organisatie Groningen (SOG) heeft het College van Bestuur van de Rijksuniversiteit Groningen (RUG) tijdens de officiële Universiteitsraad van 27 november gewapend tegen de harde knip. De SOG keert zich fel tegen de plannen van minister Plasterk om een harde knip tussen Bachelor en Master wettelijk in te voeren. Het College kreeg symbolisch een schaar aangeboden met een enorm hangslot er omheen, zodat er niet hard mee geknipt kan worden. In de strijd tegen Den Haag ontving het College ook een schild in de kleuren van de SOG om de autonomie van de universiteit te beschermen. Voorzitter dhr. Poppema (midden) en lid van het College dhr. Duppen (rechts) namen de attributen in ontvangst uit handen van fractievoorzitter Emiel Blok (links). <a href="#">Lees verder ...</a></p>
 			</div>
 
-
 		</div>
 
 		<div id="left">
@@ -53,17 +52,12 @@
 				<h1><a href="">[logo hier]</a></h1>
 			</div>
 			<div class="box">
-				<h3>Vereniging</h3>
+				{assign var=vereniging value=$navigation->get_menu('vereniging')}
+				<h3>{$vereniging->title|escape}</h3>
 				<ul class="menu">
-					<li><a href="#">De S.O.G.</a></li>
-					<li class="selected"><a href="#">Bestuur</a></li>
-					<li><a href="#">Adviesbureau</a></li>
-					<li><a href="#">Commissies</a></li>
-					<li><a href="#">Congres</a></li>
-					<li><a href="#">StudentCouncil</a></li>
-					<li><a href="#">Huisvesting</a></li>
-					<li><a href="#">Fotopagina</a></li>
-					<li><a href="#">Oudleden</a></li>
+					{foreach from=$vereniging->get_children() item=item}
+					<li {if $item->is_active()}class="selected"{/if}><a href="{$item->get_link()}">{$item->title|escape}</a></li>
+					{/foreach}
 				</ul>
 			</div>
 		</div>

@@ -32,6 +32,18 @@ class Frontend_Admin extends Frontend {
 		$res->redirect($this->url('admin', 'login'));
 	}
 
+	public function json_public_items () {
+		if (strlen($name = $this->get(1)) < 2) return STATUS_NOT_FOUND;
+
+		if (($module = Repository::getInstance()->load_backend($name)) === null) {
+			return STATUS_NOT_FOUND;
+		}
+
+		Template::getInstance()->set_render(false);
+		Response::getInstance()->set_content_type('application/json');
+		echo json_encode($module->get_public_items());
+	}
+
 	public function index () {
 		$rep = Repository::getInstance();
 		$this->module = $this;

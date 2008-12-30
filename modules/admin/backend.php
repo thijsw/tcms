@@ -3,7 +3,7 @@
 class Backend_Admin extends Backend {
 
 	public function index () {
-		return STATUS_OK;
+		$this->set_template('overview');
 	}
 
 }

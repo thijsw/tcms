@@ -9,6 +9,7 @@ require_once 'helpers/response.php';
 require_once 'helpers/database.php';
 require_once 'helpers/storage.php';
 require_once 'helpers/authentication.php';
+require_once 'helpers/template.php';
 
 class TCms {
 	
@@ -40,6 +41,5 @@ try {
 } catch (Exception $e) {
 	echo "<strong>TCMS " . str_replace('_', ' ', get_class($e)) . "</strong> :: " . $e->getMessage();
 }
-
 
 ?>
