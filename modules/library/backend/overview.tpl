@@ -19,7 +19,7 @@
 			</tr>
 			{/foreach}
 			<tr>
-				<td colspan="5"><img src="images/icons/add.png"> <a href="{$this->url('admin', 'module', $this->get_module_name(), 'add_item')}"><strong>Nieuwe map aanmaken &raquo;</strong></a></td>
+				<td colspan="2"><img src="images/icons/add.png"> <a href="{$this->url('admin', 'module', $this->get_module_name(), 'add_item')}"><strong>Nieuwe map aanmaken &raquo;</strong></a></td>
 			</tr>
 		</tbody>
 	</table>

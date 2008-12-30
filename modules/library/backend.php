@@ -4,19 +4,8 @@ require_once 'modules/navigation/backend.php';
 
 class Backend_Library extends Backend_Navigation {
 
-	protected $image_class = 'Library_Image';
+	protected $class_file = 'Library_File';
 	protected $class_item = 'Library_Folder';
-
-/*
-	public function get_images () {
-		$storage = Storage::getInstance();
-		$db = Database::getInstance();
-		$data = $db->get_rows(sprintf("SELECT * FROM %s ORDER BY created", strtolower($this->image_class)));
-		if (is_array($data))
-			return $storage->load_multiple($this->image_class, $data);
-		else return array();
-	}
-*/
 
 	public function get_folders () {
 		$db = Database::getInstance();
@@ -25,13 +14,54 @@ class Backend_Library extends Backend_Navigation {
 		return $storage->load_multiple($this->class_item, $rows);
 	}
 
+	public function list_contents () {
+		if (!$this->get(3)) return STATUS_NOT_FOUND;
+
+		$this->id = (int) $this->get(3);
+		$storage = Storage::getInstance();
+		if (($this->folder = $storage->load($this->class_item, $this->id)) === null)
+			return STATUS_NOT_FOUND;
+
+		$this->set_template('list_contents');
+		$this->set_title($this->folder->title);
+
+		$db = Database::getInstance();
+		$rows = $db->get_rows(sprintf('SELECT p.*, u.id author FROM %s p LEFT JOIN module_author u on u.id = p.author WHERE folder = %d ORDER BY title', strtolower($this->class_file), $this->id));
+
+		$this->contents = array();
+		if (!$rows) return;
+
+		foreach ($rows as $row) {
+			$file = $storage->load($this->class_file, $row);
+			$author = $storage->load('Module_Author', $row['author']);
+			$file->set_author($author);
+			$this->contents[] = $file;
+		}
+	}
+
 	public function create ($data) {
 		$this->set_template('edit');
 		if ($data) {
 			if (isset($_FILES)) {
-				$this->store_file($data, $_FILES['upload']);
+				$this->store_file($data, $upload = $_FILES['upload']);
 			}
 
+			$row = array();
+			foreach (array('title', 'folder') as $key) {
+				$row[$key] = isset($data[$key]) ? $data[$key] : '';
+			}
+
+			$row['author'] = Authentication::getInstance()->get_user()->id;
+			$row['created'] = date('Y-m-d H:i:s');
+			$row['size'] = isset($upload['size']) ? $upload['size'] : 0;
+			$row['mimetype'] = isset($upload['type']) ? $upload['type'] : 'text/plain';
+			$row['name'] = isset($upload['name']) ? $upload['name'] : '';
+
+			$db = Database::getInstance();
+			$db->insert($this, 'file', $row);
+
+			$res = Response::getInstance();
+			$res->redirect($this->url('admin', 'module', $this->get_module_name(), 'list_contents', $row['folder']));
 		}
 	}
 
@@ -40,6 +70,7 @@ class Backend_Library extends Backend_Navigation {
 
 		if ($this->get(3) > 0)
 			$this->id = (int) $this->get(3);
+		else return STATUS_NOT_FOUND;
 
 		if ($data) {
 			$db = Database::getInstance();
@@ -53,6 +84,19 @@ class Backend_Library extends Backend_Navigation {
 			$res = Response::getInstance();
 			$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 		}
+	}
+
+	public function upload_file () {
+		$this->set_template('upload_file');
+
+		if ($this->get(3) > 0)
+			$this->id = (int) $this->get(3);
+		else return STATUS_NOT_FOUND;
+
+		$storage = Storage::getInstance();
+		if (($this->folder = $storage->load($this->class_item, $this->id)) === null)
+			return STATUS_NOT_FOUND;
+
 	}
 
 	private function store_file ($data, $file) {
@@ -77,7 +121,14 @@ class Backend_Library extends Backend_Navigation {
 		}
 
 		chmod($location, 0644);
+	}
 
+	function get_human_readable_filesize ($size) {
+		$sizes = array('YB', 'ZB', 'EB', 'PB', 'TB', 'GB', 'MB', 'kB', 'B');
+		$total = count($sizes);
+
+		while ($total-- && $size > 1024) $size /= 1024;
+		return sprintf('%.2f %s', $size, $sizes[$total]);
 	}
 
 }

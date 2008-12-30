@@ -13,6 +13,7 @@ abstract class Module {
 	private $modules = array();
 	private $segments = array();
 	protected $template = 'view';
+	protected $title = null;
 
 	private function read_package () {
 		if (!is_null($this->package)) return;
@@ -26,6 +27,14 @@ abstract class Module {
 		}
 
 		$this->package = new Package(file_get_contents($file));
+	}
+
+	public function get_title () {
+		return is_null($this->title) ? get_class($this) : $this->title;
+	}
+
+	public function set_title ($title) {
+		$this->title = $title;
 	}
 
 	public function get_dependencies ($type) {
