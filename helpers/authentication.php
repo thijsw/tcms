@@ -68,7 +68,7 @@ class Authentication {
 	public function logout ()
 	{
 		$res = Response::getInstance();
-		$res->set_cookie('authentication', '', time()-3600);
+		$res->set_cookie('authentication', '', time()-10800);
 		$this->user = array();
 		$this->logged_in = false;
 	}

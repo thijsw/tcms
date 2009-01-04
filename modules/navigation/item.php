@@ -25,6 +25,11 @@ class Navigation_Item extends Model {
 		);
 	}
 
+	public function get_module () {
+		$rep = Repository::getInstance();
+		return $rep->load_backend($this->module);
+	}
+
 	public function get_link () {
 		return $this->url($this->module, $this->method, $this->param);
 	}
@@ -151,16 +156,6 @@ class Navigation_Item extends Model {
 		$node = $this->get_next_ancestor();
 		$this->sort++; $node->sort--;
 		$storage->save($this); $storage->save($node);
-	}
-
-	/**
-	 * Move tree of items or a single item to another branch in the tree
-	 *
-	 * @param Item $parent The item under which the tree must be placed
-	 * @return boolean
-	 */
-	public function move_to_tree (Navigation_Item $parent) {
-		// ...
 	}
 
 }

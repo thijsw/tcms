@@ -10,8 +10,9 @@ class Backend_Library extends Backend_Navigation {
 	public function get_folders () {
 		$db = Database::getInstance();
 		$storage = Storage::getInstance();
-		$rows = $db->get_rows(sprintf('SELECT * FROM %s WHERE parent IS NULL ORDER BY title', strtolower($this->class_item)));
-		return $storage->load_multiple($this->class_item, $rows);
+		$id = $db->get_one(sprintf('SELECT id FROM %s WHERE parent IS NULL LIMIT 1', strtolower($this->class_item)));
+		$root = $storage->load($this->class_item, (int) $id);
+		return $root ? $root->get_children() : array();
 	}
 
 	public function list_contents () {

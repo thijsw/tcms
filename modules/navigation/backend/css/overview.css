@@ -11,3 +11,12 @@ div.area_header {
 	padding: 2px 0;
 	margin-bottom: 10px;
 }
+
+table a.module {
+	color: #090;
+	text-transform: uppercase;
+	font-size: 9px;
+	background: #dfd;
+	padding: 2px;
+	margin-left: 5px;
+}

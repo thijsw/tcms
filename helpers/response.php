@@ -36,7 +36,7 @@ class Response {
 
 	public function set_cookie ($name, $value, $expire = null) {
 		if (is_null($expire)) {
-			$expire = time()+3600;
+			$expire = time()+10800; // default: 3 hours
 		}
 		$this->cookies[$name] = array('value' => $value, 'expire' => $expire);
 	}
