@@ -7,7 +7,7 @@ class Backend_Page extends Backend {
 	public $model_name = 'page';
 	public $model_class = 'Page_Page';
 
-	private function get_all_items () {
+	protected function get_all_items () {
 		$db = Database::getInstance();
 		$rows = $db->get_rows(sprintf("SELECT p.*, u.id author FROM %s p LEFT JOIN module_author u on u.id = p.author ORDER BY p.id", strtolower($this->model_class)));
 

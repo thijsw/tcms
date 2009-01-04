@@ -37,7 +37,7 @@ class Backend_Navigation extends Backend {
 	}
 
 	public function delete_item () {
-		if ($this->get(3) < 1) return;
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
 
 		$storage = Storage::getInstance();
 
@@ -49,7 +49,7 @@ class Backend_Navigation extends Backend {
 	}
 
 	public function move_up () {
-		if ($this->get(3) < 1) return;
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
 
 		$storage = Storage::getInstance();
 		$item = $storage->load($this->class_item, (int) $this->get(3));
@@ -60,7 +60,7 @@ class Backend_Navigation extends Backend {
 	}
 
 	public function move_down () {
-		if ($this->get(3) < 1) return;
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
 
 		$storage = Storage::getInstance();
 		$item = $storage->load($this->class_item, (int) $this->get(3));
@@ -70,6 +70,23 @@ class Backend_Navigation extends Backend {
 		$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 	}
 
+	public function move_item ($data) {
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
+		$storage = Storage::getInstance();
+		$this->item = $storage->load($this->class_item, (int) $this->get(3));
+
+		if (isset($data) && isset($data['move'])) {
+			$parent = $storage->load($this->class_item, (int) $data['move']);
+			if (!$parent) return STATUS_NOT_FOUND;
+			$this->item->change_parent($parent);
+
+			$res = Response::getInstance();
+			$res->redirect($this->url('admin', 'module', $this->get_module_name()));
+			return;
+		}
+
+		$this->set_template('move_item');
+	}
 
 }
 

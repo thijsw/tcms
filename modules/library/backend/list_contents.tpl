@@ -18,7 +18,7 @@
 				<td><a href="{$this->url('admin', 'module', $this->get_module_name(), 'edit', $file->id)}">{$file->title|escape}</a></td>
 				<td>{$this->get_human_readable_filesize($file->size)}</td>
 				<td>{$author->name_first|escape} {$author->name_last|escape}</td>
-				<td>[delete]</td>
+				<td>[delete-link]</td>
 			</tr>
 			{foreachelse}
 			<tr>
@@ -28,7 +28,7 @@
 			</tr>
 			{/foreach}
 			<tr>
-				<td colspan="5"><img src="images/icons/add.png"> <a href="{$this->url('admin', 'module', $this->get_module_name(), 'upload_file', $this->id)}"><strong>Bestand uploaden in deze map &raquo;</strong></a></td>
+				<td colspan="5"><img src="images/icons/add.png" /> <a href="{$this->url('admin', 'module', $this->get_module_name(), 'upload_file', $this->id)}"><strong>Bestand uploaden in deze map &raquo;</strong></a></td>
 			</tr>
 		</tbody>
 	</table>

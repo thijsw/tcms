@@ -44,6 +44,8 @@ class Backend_Library extends Backend_Navigation {
 		if ($data) {
 			if (isset($_FILES)) {
 				$this->store_file($data, $upload = $_FILES['upload']);
+			} else {
+				throw new Exception_Core("File upload failed");
 			}
 
 			$row = array();
@@ -103,7 +105,7 @@ class Backend_Library extends Backend_Navigation {
 		global $__uploads_path;
 
 		if (!is_array($file))
-			throw new Exception_Core("No image upload found");
+			throw new Exception_Core("No file upload found");
 
 		if (!is_writable($__uploads_path))
 			throw new Exception_Core("Upload path $__uploads_path isn't writable by the server user");

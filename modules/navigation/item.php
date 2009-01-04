@@ -110,6 +110,19 @@ class Navigation_Item extends Model {
 		return (bool) $this->get_children();
 	}
 
+	public function change_parent (Navigation_Item $item) {
+		$db = Database::getInstance();
+
+		$db->query(sprintf(
+			'UPDATE %s SET parent = %d WHERE `id` = %d',
+			strtolower(get_class($this)),
+			$item->id,
+			$this->id
+		));
+
+		$this->parent = $item->id;
+	}
+
 	/**
 	 * Move node up in tree, if possible
 	 *

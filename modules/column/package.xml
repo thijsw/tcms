@@ -1,0 +1,13 @@
+<module system="false">
+	<title>Columns</title>
+	<version>1.0</version>
+	<author>Thijs Wijnmaalen</author>
+	<dependencies>
+		<module version="1.0">Page</module>
+		<module version="1.0">Navigation</module>
+		<module version="1.0">Homepage</module>
+	</dependencies>
+	<models>
+		<name>Column</name>
+	</models>
+</module>
