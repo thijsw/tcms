@@ -38,6 +38,35 @@ class Frontend_Library extends Frontend {
 		return $this->data;
 	}
 
+	public function view_image () {
+		if ($this->get(1) < 1) return STATUS_NOT_FOUND;
+		$this->id = (int) $this->get(1);
+
+		$storage = Storage::getInstance();
+		if (($file = $storage->load('Library_File', $this->id)) === null) {
+			return STATUS_NOT_FOUND;
+		}
+
+		if (!$file->is_picture()) {
+			return STATUS_NOT_FOUND;
+		}
+
+		$tpl = Template::getInstance();
+		$tpl->set_render(false);
+
+		$res = Response::getInstance();
+		$res->set_content_type('image/jpeg');
+
+		if ($this->get(2) == 'h') $mode = 2;
+		else $mode = 1;
+
+		if ((int) $this->get(3) > 0)
+			$size = (int) $this->get(3);
+		else $size = 200;
+
+		$this->data = $file->resize_picture($size, $mode);
+	}
+
 }
 
 ?>
