@@ -10,7 +10,7 @@ class Frontend_Column extends Frontend_Page {
 	public function index () {}
 
 	public function get_title () {
-		return 'Columns';
+		return $this->item ? $this->item->title : 'Geen titel';
 	}
 
 }

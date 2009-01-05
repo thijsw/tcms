@@ -13,37 +13,26 @@
 		<div id="right">
 			<div id="top">
 				<ul class="navigation">
-					<li class="selected"><a href="#">homepage</a></li>
-					<li><a href="#">Nieuws</a></li>
-					<li><a href="#">Agenda</a></li>
-					<li><a href="#">Lid worden</a></li>
-					<li><a href="#">Vacatures</a></li>
-					<li><a href="#">Forum</a></li>
-					<li><a href="#">Links</a></li>
-					<li><a href="#">Contact</a></li>
+					{assign var=hoofdmenu value=$navigation->get_menu('hoofdmenu')}
+					{foreach from=$hoofdmenu->get_children() item=item}
+					<li {if $item->is_active()}class="selected"{/if}><a href="{$item->get_link()}">{$item->title|escape}</a></li>
+					{/foreach}
 				</ul>
 			</div>
 			
 			<div id="bar">
 				<ul>
-					<li><a href="#">Home</a> &rsaquo;</li>
-					<li><a href="#">Vereniging</a> &rsaquo;</li>
-					<li>Geschiedenis</li>
-				</ul>
+					{foreach from=$navigation->get_breadcrumbs() item=bc name=bc}
+					{if $smarty.foreach.bc.last}
+						<li>{$bc->title|escape}</li>
+					{else}
+						<li><a href="{$bc->get_link()}">{$bc->title|escape}</a> &rsaquo;</li>
+					{/if}
+					{/foreach}
+					</ul>
 			</div>
 
-			<div class="box">
-				{$this->render('middle')}
-				<h2>{$this->get_title()}</h2>
-				<p>Welkom op de homepage van de Studenten Organisatie Groningen (SOG)! De SOG is dé organisatie bij uitstek die de belangen van Groningse studenten behartigt. Al jaren zetten wij ons actief en met succes in voor het belang van studenten. Via de grootste fractie in de universiteitsraad, het juridisch adviesbureau, het Interstedelijk Studenten Overleg (ISO) en veel andere organen. <a href="#">Lees verder ...</a></p>
-			</div>
-
-			<div class="box">
-				<h2>Nieuwsberichten</h2>
-				<h3><a href="#">SOG wapent College van Bestuur tegen Harde Knip</a></h3>
-				<h4><span>Vereniging</span> &ndash; 10 december 2008 &ndash; Geschreven door <strong>Emiel Blok</strong></h4>
-				<p><img src="images/foto.jpg" alt="Foto Emiel Blok" class="right" />De Studenten Organisatie Groningen (SOG) heeft het College van Bestuur van de Rijksuniversiteit Groningen (RUG) tijdens de officiële Universiteitsraad van 27 november gewapend tegen de harde knip. De SOG keert zich fel tegen de plannen van minister Plasterk om een harde knip tussen Bachelor en Master wettelijk in te voeren. Het College kreeg symbolisch een schaar aangeboden met een enorm hangslot er omheen, zodat er niet hard mee geknipt kan worden. In de strijd tegen Den Haag ontving het College ook een schild in de kleuren van de SOG om de autonomie van de universiteit te beschermen. Voorzitter dhr. Poppema (midden) en lid van het College dhr. Duppen (rechts) namen de attributen in ontvangst uit handen van fractievoorzitter Emiel Blok (links). <a href="#">Lees verder ...</a></p>
-			</div>
+			{$this->render('middle')}
 
 		</div>
 
@@ -51,13 +40,22 @@
 			<div id="logo">
 				<h1><a href="">[logo hier]</a></h1>
 			</div>
+
 			<div class="box">
 				{assign var=vereniging value=$navigation->get_menu('vereniging')}
 				<h3>{$vereniging->title|escape}</h3>
 				<ul class="menu">
-					{foreach from=$vereniging->get_children() item=item}
-					<li {if $item->is_active()}class="selected"{/if}><a href="{$item->get_link()}">{$item->title|escape}</a></li>
-					{/foreach}
+					{$tpl->set('item', $vereniging)}
+					{$this->render('menu-item')}
+				</ul>
+			</div>
+
+			<div class="box">
+				{assign var=fractie value=$navigation->get_menu('fractie')}
+				<h3>{$fractie->title|escape}</h3>
+				<ul class="menu">
+					{$tpl->set('item', $fractie)}
+					{$this->render('menu-item')}
 				</ul>
 			</div>
 		</div>

@@ -5,6 +5,7 @@ class Template {
 	private static $instance;
 	private $_smarty;
 	private $render = true;
+	private $values = array();
 
 	private function __construct() {}
 
@@ -17,6 +18,15 @@ class Template {
 
 	public function set_render ($yesorno = true) {
 		$this->render = $yesorno;
+	}
+
+	// no overloading method, because Smarty isn't able to write to attributes directly
+	public function set ($name, $value) {
+		$this->values[$name] = $value;
+	}
+
+	public function __get ($name) {
+		return isset($this->values[$name]) ? $this->values[$name] : null;
 	}
 
 	public function render ($object, $type, $style)
@@ -46,6 +56,7 @@ class Template {
 		$this->_smarty->template_dir = TCMS_PATH . '/modules/' . $name . '/frontend/';
 
 		$auth = Authentication::getInstance();
+		$this->_smarty->assign('tpl', $this); // object to assign variables to that are being used by multiple templates
 		$this->_smarty->assign('user', $auth->get_user());
 		$this->_smarty->assign('rep', Repository::getInstance());
 		$this->_smarty->assign('this', $object);

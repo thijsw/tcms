@@ -1,6 +1,6 @@
 <?php
 
-require_once TCMS_PATH . '/libraries/textile/textile.class.php';
+require_once TCMS_PATH . '/libraries/textile/class.textile.php';
 
 function smarty_modifier_textile($string)
 {

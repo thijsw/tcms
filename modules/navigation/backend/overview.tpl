@@ -12,10 +12,10 @@
 	<table>
 		<thead>
 			<tr>
-				<th>&nbsp;</th>
-				<th>Titel</th>
-				<th>URI</th>
-				<th>&nbsp;</th>
+				<th width="5%">&nbsp;</th>
+				<th width="65%">Titel</th>
+				<th width="20%">URI</th>
+				<th width="10%">&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>

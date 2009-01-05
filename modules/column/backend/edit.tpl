@@ -15,8 +15,12 @@
 			<input type="text" id="name" name="name" value="{$this->item->name|escape:html}" />
 		</p>
 		<p>
-			<label for="content">Inhoud</label>
-			<textarea cols="75" rows="30" name="content">{$this->item->content|escape:html}</textarea>
+			<label for="intro">Intro</label>
+			<textarea cols="75" rows="5" name="intro">{$this->item->intro|escape:html}</textarea>
+		</p>
+		<p>
+			<label for="text">Inhoud</label>
+			<textarea cols="75" rows="30" name="text">{$this->item->text|escape:html}</textarea>
 		</p>
 		<p>
 			<label for="submit">Pagina opslaan</label>

@@ -24,7 +24,7 @@ class Model {
 		global $__mod_rewrite;
 		$arguments = array();
 		foreach (func_get_args() as $argument) {
-			if (!is_null($argument)) $arguments[] = $argument;
+			if (!empty($argument)) $arguments[] = $argument;
 		}
 		return 'http://' . $_SERVER['HTTP_HOST'] . ($__mod_rewrite ? '/' : '/?') . implode($arguments, '/');
 	}

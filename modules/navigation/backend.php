@@ -12,7 +12,7 @@ class Backend_Navigation extends Backend {
 	public function get_navigation_areas () {
 		$db = Database::getInstance();
 		$storage = Storage::getInstance();
-		$rows = $db->get_rows(sprintf('SELECT * FROM %s WHERE parent IS NULL AND tag IS NOT NULL', strtolower($this->class_item)));
+		$rows = $db->get_rows(sprintf('SELECT * FROM %s WHERE parent IS NULL AND tag IS NOT NULL ORDER BY sort', strtolower($this->class_item)));
 		return $storage->load_multiple($this->class_item, $rows);
 	}
 

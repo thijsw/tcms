@@ -20,7 +20,7 @@ class Navigation_Item extends Model {
 		$req = Request::getInstance();
 		return (
 			$this->module == $req->get_module() &&
-			(is_null($this->method) ? 'index' : $this->method) == $req->get_method() &&
+			(empty($this->method) ? 'index' : $this->method) == $req->get_method() &&
 			$this->param == $req->get(1)
 		);
 	}
@@ -52,6 +52,11 @@ class Navigation_Item extends Model {
 		if (($parent = $this->get_parent()) === null)
 			return $i;
 		else return $parent->get_depth(++$i);
+	}
+
+	public function get_ancestors () {
+		for ($a = array(), $item = $this; !$item->is_root(); array_unshift($a, $item), $item = $item->get_parent());
+		return $a;
 	}
 
 	public function get_next_ancestor () {

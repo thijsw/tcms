@@ -175,6 +175,13 @@ a {
 #left ul.menu li.selected a {
 	font-weight: bold;
 }
+#left ul.menu ul {
+	padding-left: 20px;
+}
+#left ul.menu li li {
+
+	list-style-type: square;
+}
 
 #footer {
 	clear: both;
