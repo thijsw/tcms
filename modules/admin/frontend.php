@@ -6,6 +6,8 @@ class Frontend_Admin extends Frontend {
 
 	public $module;
 	public $method;
+	
+	private $json = null;
 
 	public function __construct () {
 		$auth = Authentication::getInstance();
@@ -41,7 +43,13 @@ class Frontend_Admin extends Frontend {
 
 		Template::getInstance()->set_render(false);
 		Response::getInstance()->set_content_type('application/json');
-		echo json_encode($module->get_public_items());
+		$this->json = json_encode($module->get_public_items());
+	}
+
+	public function render ($style) {
+		if (isset($this->json))
+			return $this->json;
+		return parent::render($style);
 	}
 
 	public function index () {

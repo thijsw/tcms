@@ -21,8 +21,9 @@ class Frontend_Navigation extends Frontend {
 
 		$item = $storage->load('Navigation_Item', (int) $id);
 
-		if (!$item) return array();
-		$ancestors = $item->get_ancestors();
+		if ($item)
+			$ancestors = $item->get_ancestors();
+		else $ancestors = array();
 
 		// is the homepage module listed?
 		$included = false;

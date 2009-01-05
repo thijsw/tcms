@@ -7,7 +7,7 @@ class Backend_Column extends Backend_Page {
 	public $model_name = 'column';
 	public $model_class = 'Column_Column';
 
-	protected function get_all_items () {
+	public function get_all_items () {
 		$db = Database::getInstance();
 		$rows = $db->get_rows(sprintf("SELECT * FROM %s ORDER BY submission", strtolower($this->model_class)));
 		if (!$rows) return array();
@@ -43,19 +43,19 @@ class Backend_Column extends Backend_Page {
 		}
 
 		if ($data) {
+			$data['submission'] = $this->item->submission;
 			$this->item = $storage->save($this->item, $data);
 		}
 
 		$this->set_template('edit');
 	}
 
-
 	public function get_public_items () {
 		$items = array();
 		$items[] = array(
 			'module' => $this->get_module_name(),
-			'method' => null,
-			'param' => null,
+			'method' => '',
+			'param' => '',
 			'title' => 'Overzicht van columns',
 			'enabled' => 1
 			);

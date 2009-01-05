@@ -20,7 +20,7 @@ class Navigation_Item extends Model {
 		$req = Request::getInstance();
 		return (
 			$this->module == $req->get_module() &&
-			(empty($this->method) ? 'index' : $this->method) == $req->get_method() &&
+			(strlen($this->method) < 1 ? 'index' : $this->method) == $req->get_method() && // empty() does not work properly
 			$this->param == $req->get(1)
 		);
 	}

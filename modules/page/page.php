@@ -26,6 +26,11 @@ class Page_Page extends Model {
 		return $this->author;
 	}
 
+	public function get_link () {
+		list ($module, $name) = explode ('_', get_class($this));
+		return $this->url(strtolower($module), 'view', $this->id);
+	}
+
 }
 
 ?>
