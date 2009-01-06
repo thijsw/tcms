@@ -18,7 +18,10 @@
 				<td><a href="{$this->url('admin', 'module', $this->get_module_name(), 'edit', $file->id)}">{$file->title|escape}</a></td>
 				<td>{$file->get_human_readable_filesize()}</td>
 				<td>{$author->name_first|escape} {$author->name_last|escape}</td>
-				<td>[delete-link]</td>
+				<td>
+					<a href="{$this->url('admin', 'module', $this->get_module_name(), 'edit', $file->id)}"><img src="images/icons/page_edit.png" /></a>
+					<a href="{$this->url('admin', 'module', $this->get_module_name(), 'delete_file', $file->id)}"><img src="images/icons/delete.png" /></a>
+				</td>
 			</tr>
 			{foreachelse}
 			<tr>

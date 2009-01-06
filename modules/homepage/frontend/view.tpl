@@ -5,9 +5,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>{$this->get_title()|escape} - Studenten Organisatie Groningen (SOG)</title>
 	<link rel="stylesheet" href="{$this->get_css_link()}" type="text/css" media="screen" title="Main stylesheet" charset="utf-8" />
+
 </head>
 <body>
 {assign var=navigation value=$rep->load_frontend('navigation')}
+
 	<div id="wrapper">
 
 		<div id="right">
@@ -38,7 +40,7 @@
 
 		<div id="left">
 			<div id="logo">
-				<h1><a href="">[logo hier]</a></h1>
+				<h1><a href="{$this->url('homepage')}">{$this->get_title()|escape}</a></h1>
 			</div>
 
 			<div class="box">

@@ -1,5 +1,7 @@
 <?php
 
+setlocale (LC_ALL, 'nl_NL');
+
 require_once 'config.php';
 require_once 'exception/core.php';
 require_once 'exception/http.php';
@@ -12,7 +14,7 @@ require_once 'helpers/authentication.php';
 require_once 'helpers/template.php';
 
 class TCms {
-	
+
 	public function __construct () {
 		$req = Request::getInstance();
 		$rep = Repository::getInstance();

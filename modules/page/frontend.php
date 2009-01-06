@@ -19,6 +19,16 @@ class Frontend_Page extends Frontend_Homepage {
 		return STATUS_NOT_FOUND;
 	}
 
+	public function get_items ($offset = 0, $length = null) {
+		static $items = array();
+		if (empty($items)) {
+			$rep = Repository::getInstance();
+			$backend = $rep->load_backend($this->get_module_name());
+			$items = $backend->get_all_items();
+		}
+		return array_slice($items, $offset, $length);
+	}
+
 	public function get_title () {
 		return $this->item ? $this->item->title : '(Naamloos)';
 	}

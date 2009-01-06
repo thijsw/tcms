@@ -36,7 +36,7 @@ function html_library_downloads ($matches) {
 	if (!$file)
 		return "<strong>[FILE {$matches[1]} NOT FOUND]</strong>";
 
-	return sprintf('<p>Download <a href="%s">%s (%s)</a></p>',
+	return sprintf('<p class="download">Download <a href="%s">%s (%s)</a></p>',
 		$backend->url($backend->get_module_name(), 'download', $file->id),
 		$file->title,
 		$file->get_human_readable_filesize()

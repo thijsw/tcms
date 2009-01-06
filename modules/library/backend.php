@@ -96,6 +96,33 @@ class Backend_Library extends Backend_Navigation {
 		}
 	}
 
+	public function edit ($data) {
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
+		$this->set_template('edit');
+
+		$storage = Storage::getInstance();
+		if (($this->item = $storage->load($this->class_file, (int) $this->get(3))) == false) {
+			return STATUS_NOT_FOUND;
+		}
+
+		if ($data) {
+			$this->item->title = isset($data['title']) ? $data['title'] : $this->item->title;
+			$this->item = $storage->save($this->item);
+			$res = Response::getInstance();
+			$res->redirect($this->url('admin', 'module', $this->get_module_name(), 'list_contents', $this->item->folder));
+		}
+	}
+
+	public function delete_file () {
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
+		$storage = Storage::getInstance();
+		$item = $storage->load($this->class_file, (int) $this->get(3));
+		$url = $this->url('admin', 'module', $this->get_module_name(), 'list_contents', $item->folder);
+		$storage->delete($item);
+		$res = Response::getInstance();
+		$res->redirect($url);
+	}
+
 	public function upload_file () {
 		$this->set_template('upload_file');
 
@@ -106,7 +133,6 @@ class Backend_Library extends Backend_Navigation {
 		$storage = Storage::getInstance();
 		if (($this->folder = $storage->load($this->class_item, $this->id)) === null)
 			return STATUS_NOT_FOUND;
-
 	}
 
 	private function store_file ($data, $file) {
