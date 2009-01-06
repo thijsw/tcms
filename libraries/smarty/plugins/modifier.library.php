@@ -20,7 +20,7 @@
 function smarty_modifier_library($string)
 {
 	// Syntax: {file.jpg,l,120}
-	return preg_replace_callback('/\{([a-z0-9_\s]+\.j?pn?g),(l|r),(\d+)\}/i', 'html_library_items', $string);
+	return preg_replace_callback('/\{([a-z0-9_-\s]+\.j?pn?g),(l|r),(\d+)\}/i', 'html_library_items', $string);
 }
 
 function html_library_items ($matches) {

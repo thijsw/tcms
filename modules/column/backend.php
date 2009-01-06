@@ -9,7 +9,7 @@ class Backend_Column extends Backend_Page {
 
 	public function get_all_items () {
 		$db = Database::getInstance();
-		$rows = $db->get_rows(sprintf("SELECT * FROM %s ORDER BY submission", strtolower($this->model_class)));
+		$rows = $db->get_rows(sprintf("SELECT * FROM %s ORDER BY submission DESC", strtolower($this->model_class)));
 		if (!$rows) return array();
 		$items = array();
 		$storage = Storage::getInstance();

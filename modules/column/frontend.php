@@ -20,7 +20,7 @@ class Frontend_Column extends Frontend_Page {
 			$backend = $rep->load_backend('column');
 			$items = $backend->get_all_items();
 		}
-		return array_slice(array_reverse($items), $offset, $length);
+		return array_slice($items, $offset, $length);
 	}
 
 }
