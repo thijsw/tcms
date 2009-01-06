@@ -6,7 +6,7 @@ class Frontend_Admin extends Frontend {
 
 	public $module;
 	public $method;
-	
+
 	private $json = null;
 
 	public function __construct () {

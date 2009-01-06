@@ -15,6 +15,13 @@ class Backend_Library extends Backend_Navigation {
 		return $root ? $root->get_children() : array();
 	}
 
+	public function get_file_by_name ($name) {
+		$db = Database::getInstance();
+		$storage = Storage::getInstance();
+		$id = $db->get_one(sprintf("SELECT id FROM %s WHERE name = '%s' LIMIT 1", strtolower($this->class_file), $name));
+		return $id ? $storage->load($this->class_file, (int) $id) : null;
+	}
+
 	public function list_contents () {
 		if (!$this->get(3)) return STATUS_NOT_FOUND;
 
