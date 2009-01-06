@@ -13,6 +13,14 @@ class Library_File extends Page_Page {
 		return true;
 	}
 
+	function get_human_readable_filesize () {
+		$sizes = array('YB', 'ZB', 'EB', 'PB', 'TB', 'GB', 'MB', 'kB', 'B');
+		$total = count($sizes);
+		$size  = $this->size;
+		while ($total-- && $size > 1024) $size /= 1024;
+		return sprintf('%.2f %s', $size, $sizes[$total]);
+	}
+
 	public function resize_picture ($size, $mode = IMAGE_MODE_MAX_WIDTH) {
 		global $__uploads_path;
 		if (!$this->is_picture()) return;

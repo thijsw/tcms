@@ -133,14 +133,6 @@ class Backend_Library extends Backend_Navigation {
 		chmod($location, 0644);
 	}
 
-	function get_human_readable_filesize ($size) {
-		$sizes = array('YB', 'ZB', 'EB', 'PB', 'TB', 'GB', 'MB', 'kB', 'B');
-		$total = count($sizes);
-
-		while ($total-- && $size > 1024) $size /= 1024;
-		return sprintf('%.2f %s', $size, $sizes[$total]);
-	}
-
 }
 
 ?>

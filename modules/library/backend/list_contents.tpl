@@ -16,7 +16,7 @@
 			<tr>
 				<td><a href="{$this->url($this->get_module_name(), 'download', $file->id)}">{$file->name|escape}</a></td>
 				<td><a href="{$this->url('admin', 'module', $this->get_module_name(), 'edit', $file->id)}">{$file->title|escape}</a></td>
-				<td>{$this->get_human_readable_filesize($file->size)}</td>
+				<td>{$file->get_human_readable_filesize()}</td>
 				<td>{$author->name_first|escape} {$author->name_last|escape}</td>
 				<td>[delete-link]</td>
 			</tr>
