@@ -80,11 +80,10 @@ class Backend_Library extends Backend_Navigation {
 
 		if ($this->get(3) > 0)
 			$this->id = (int) $this->get(3);
-		else return STATUS_NOT_FOUND;
 
 		if ($data) {
 			$db = Database::getInstance();
-			$data['parent'] = isset($this->id) ? $this->id : null;
+			$data['parent'] = isset($this->id) ? $this->id : 1;
 			if ($this->id)
 				$data['sort'] = $db->get_one(sprintf("SELECT IFNULL(MAX(sort)+1, 1) FROM library_folder WHERE parent = %d", $this->id));
 			else
@@ -110,6 +109,23 @@ class Backend_Library extends Backend_Navigation {
 			$this->item = $storage->save($this->item);
 			$res = Response::getInstance();
 			$res->redirect($this->url('admin', 'module', $this->get_module_name(), 'list_contents', $this->item->folder));
+		}
+	}
+
+	public function edit_folder ($data) {
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
+		$this->set_template('edit_folder');
+
+		$storage = Storage::getInstance();
+		if (($this->item = $storage->load($this->class_item, (int) $this->get(3))) == false) {
+			return STATUS_NOT_FOUND;
+		}
+
+		if ($data) {
+			$this->item->title = isset($data['title']) ? $data['title'] : $this->item->title;
+			$this->item = $storage->save($this->item);
+			$res = Response::getInstance();
+			$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 		}
 	}
 
