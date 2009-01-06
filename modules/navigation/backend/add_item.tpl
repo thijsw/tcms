@@ -19,10 +19,6 @@
 			<input type="text" size="40" id="title" name="title" value="{$this->item->title}" />
 		</p>
 		<p>
-			<label for="enabled">Zichtbaar</label>
-			<input type="checkbox" name="enabled" {if $this->item->enabled}checked="checked"{/if} />
-		</p>
-		<p>
 			<label for="submit">Pagina opslaan</label>
 			<input type="submit" value="Opslaan" />
 		</p>

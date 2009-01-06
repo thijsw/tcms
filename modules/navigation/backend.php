@@ -17,20 +17,36 @@ class Backend_Navigation extends Backend {
 	}
 
 	public function add_item ($data) {
-		if ($this->get(3) < 1) return;
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
 		$this->set_template('add_item');
 
 		$this->id = (int) $this->get(3);
 
 		if ($data) {
 			$db = Database::getInstance();
-			$data['enabled'] = $data['enabled'] ? 1 : 0;
 			$data['parent'] = $this->id;
 			$data['sort'] = $db->get_one(sprintf("SELECT IFNULL(MAX(sort)+1, 1) FROM %s WHERE parent = %d", strtolower($this->class_item), $this->id));
 			list($data['method'], $data['param']) = explode('/', $data['item']);
 			unset($data['item']);
 			$db = Database::getInstance();
 			$db->insert($this, 'item', $data);
+			$res = Response::getInstance();
+			$res->redirect($this->url('admin', 'module', $this->get_module_name()));
+		}
+	}
+
+	public function edit ($data) {
+		if ($this->get(3) < 1) return STATUS_NOT_FOUND;
+		$this->set_template('edit');
+
+		$storage = Storage::getInstance();
+		if (($this->item = $storage->load($this->class_item, (int) $this->get(3))) == false) {
+			return STATUS_NOT_FOUND;
+		}
+
+		if ($data) {
+			$this->item->title = isset($data['title']) ? $data['title'] : $this->item->title;
+			$this->item = $storage->save($this->item);
 			$res = Response::getInstance();
 			$res->redirect($this->url('admin', 'module', $this->get_module_name()));
 		}
