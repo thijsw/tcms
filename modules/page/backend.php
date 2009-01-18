@@ -17,7 +17,7 @@ class Backend_Page extends Backend {
 		$storage = Storage::getInstance();
 		foreach ($rows as $row) {
 			$page = $storage->load($this->model_class, $row);
-			$author = $storage->load('Module_Author', $row['author']);
+			$author = $storage->load('Module_Author', (int) $row['author']);
 			$page->set_author($author);
 			$pages[] = $page;
 		}

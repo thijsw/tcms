@@ -26,6 +26,8 @@ class Frontend_Page extends Frontend_Homepage {
 			$backend = $rep->load_backend($this->get_module_name());
 			$items = $backend->get_all_items();
 		}
+		if (is_null($length))
+			return $items;
 		return array_slice($items, $offset, $length);
 	}
 

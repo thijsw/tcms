@@ -13,7 +13,7 @@
 <div class="box">
 	<h2>Archief</h2>
 	<table width="100%">
-		{foreach from=$this->get_items(3) item=column}
+		{foreach from=$this->get_items() item=column}
 		<tr>
 			<td><a href="{$column->get_link()}">{$column->title|escape}</a> <span style="margin-left: 10px; color: #999; font-style: italic;">{$column->name}</span></td>
 			<td>{$column->submission|date_format:"%d-%m-%Y"}</td>

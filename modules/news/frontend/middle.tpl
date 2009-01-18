@@ -14,7 +14,7 @@
 <div class="box">
 	<h2>Archief</h2>
 	<table width="100%">
-		{foreach from=$this->get_items(3) item=item}
+		{foreach from=$this->get_items() item=item}
 		{assign var=author value=$item->get_author()}
 		<tr>
 			<td><a href="{$item->get_link()}">{$item->title|escape}</a> <span style="margin-left: 10px; color: #999; font-style: italic;">{$author->name_first|escape} {$author->name_last|escape}</span></td>
