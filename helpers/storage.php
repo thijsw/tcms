@@ -61,6 +61,10 @@ class Storage {
 	public function load ($class, $id_data) {
 		global $__module_file;
 
+		if (!is_int($id_data) && !is_array($id_data)) {
+			throw new Exception_Core('Module could not be loaded, id/data invalid');
+		}
+
 		$id = is_int($id_data) ? $id_data : (int) $id_data['id'];
 
 		// Already loaded
